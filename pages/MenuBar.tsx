@@ -16,6 +16,7 @@ export default function CenteredTabs() {
         <Tab label="Home" />
         <Tab label="My Games" />
         <Tab label="Friends" />
+        <Tab label="How To" />
       </Tabs>
     </Box>
   );
