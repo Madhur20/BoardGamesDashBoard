@@ -1,5 +1,19 @@
-.container {
-  padding: 0 2rem;
+.container1 {
+  background-color: black;
+  display: flex;
+  float: none;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 3 ;
+}
+.container2 {
+  background-color: black;
+  display: flex;
+  float: none;
+  flex-direction: column;
+  flex-wrap: wrap;
+  position: sticky;
+  padding: 10 ;
 }
 
 .main {
@@ -29,7 +43,7 @@
 }
 
 .title a {
-  color: #0070f3;
+  color: white;
   text-decoration: none;
 }
 
