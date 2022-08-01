@@ -1,19 +1,13 @@
 import type { NextPage } from 'next'
 import styles from '../styles/Home.module.css'
-import ButtonAppBar from './AppBar'
-import CenteredTabs from './MenuBar'
+import Top from '../components/Top'
 
 const Home: NextPage = () => {
   return (
     <div className={styles.container1}>
-      <div className={styles.container2}>
-        <ButtonAppBar></ButtonAppBar>
-      </div>
-      <div className={styles.container2}>
-        <CenteredTabs></CenteredTabs>
-      </div>
+      <Top />
     </div>
   )
 }
 
-export default Home
+export default Home;
