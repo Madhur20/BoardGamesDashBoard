@@ -6,7 +6,7 @@ import Top from '../components/Top';
 const Games: NextPage = () => {
     return (
         <div>
-            <Top />
+            <Top page={1} />
             <Typography>Games</Typography>
         </div>
     )

@@ -6,7 +6,7 @@ import Top from '../components/Top';
 const Friend: NextPage = () => {
     return (
         <div>
-            <Top />
+            <Top page={2} />
             <Typography>Friend</Typography>
         </div>
     )
