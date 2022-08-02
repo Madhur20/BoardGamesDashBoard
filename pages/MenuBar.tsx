@@ -22,10 +22,10 @@ export default function CenteredTabs() {
   return (
     <Box sx={{ width: '100%', bgcolor: '#333333' }}>
       <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary" centered>
-        <Tab label="Home" href={"/"} />
-        <Tab label="My Games" href={"/games"} />
-        <Tab label="Friends" href={"/friends"} />
-        <Tab label="How To" href={"/guide"} />
+        <Tab label="Home" />
+        <Tab label="My Games" />
+        <Tab  label="Friends" />
+        <Tab label="How To" />
       </Tabs>
     </Box>
   );
