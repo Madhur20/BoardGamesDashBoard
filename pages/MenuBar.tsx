@@ -2,12 +2,9 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 
-export default function CenteredTabs(props: any) {
-  const router = useRouter();
-  const [value, setValue] = React.useState(props.page);
+export default function CenteredTabs() {
+  const [value, setValue] = React.useState(0);
 
   React.useEffect(() => {
     const menu_data = window.localStorage.getItem('MENU_INDEX');
@@ -25,10 +22,10 @@ export default function CenteredTabs(props: any) {
   return (
     <Box sx={{ width: '100%', bgcolor: '#333333' }}>
       <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary" centered>
-        <Link href="/" passHref><Tab label="Home" /></Link>
-        <Link href="/games" passHref><Tab label="Games" /></Link>
-        <Link href="/friends" passHref><Tab label="Friends" /></Link>
-        <Link href="/guide" passHref><Tab label="Guide" /></Link>
+        <Tab label="Home" />
+        <Tab label="My Games" />
+        <Tab  label="Friends" />
+        <Tab label="How To" />
       </Tabs>
     </Box>
   );
