@@ -5,16 +5,21 @@ import Tab from '@mui/material/Tab';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-export default function CenteredTabs() {
+export default function CenteredTabs(props: any) {
   const router = useRouter();
+  const [value, setValue] = React.useState(props.page);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   return (
     <Box sx={{ width: '100%', bgcolor: '#333333' }}>
-      <Tabs textColor="inherit" indicatorColor="secondary" centered>
-        <Link href="/" prefetch={true}><Tab label="Home" /></Link>
-        <Link href="/games"><Tab label="Games" /></Link>
-        <Link href="/friends"><Tab label="Friends" /></Link>
-        <Link href="/guide"><Tab label="Guide" /></Link>
+      <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary" centered>
+        <Link href="/" passHref><Tab label="Home" /></Link>
+        <Link href="/games" passHref><Tab label="Games" /></Link>
+        <Link href="/friends" passHref><Tab label="Friends" /></Link>
+        <Link href="/guide" passHref><Tab label="Guide" /></Link>
       </Tabs>
     </Box>
   );
