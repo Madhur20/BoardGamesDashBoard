@@ -315,26 +315,25 @@ export default function EnhancedTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const tableTheme = createTheme({
-    components: {
-      // Name of the component
-      MuiPaper: {
-        styleOverrides: {
-          // Name of the slot
-          root: {
-            // Some CSS
-            backgroundColor: '#E6D7D9',
-          },
-        },
-      },
-    },
-  });
+  // const tableTheme = createTheme({
+  //   components: {
+  //     // Name of the component
+  //     MuiPaper: {
+  //       styleOverrides: {
+  //         // Name of the slot
+  //         root: {
+  //           // Some CSS
+  //           backgroundColor: '#E6D7D9',
+  //         },
+  //       },
+  //     },
+  //   },
+  // });
 
   return (
     <Box sx={{ width: "100%", p: 8, bgcolor:'#2f2f2f' }}>
-      <ThemeProvider theme={tableTheme}>
-      <Paper sx={{ width: "100%", mb: 1 }}>
-        
+      {/* <ThemeProvider theme={tableTheme}> */}
+      <Paper sx={{ width: "100%", mb: 1, bgcolor:"#E6D7D9" }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
@@ -418,7 +417,7 @@ export default function EnhancedTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      </ThemeProvider>
+      {/* </ThemeProvider> */}
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
