@@ -20,8 +20,8 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import { ThemeProvider } from "@emotion/react";
-import { createTheme } from '@mui/material/styles';
+// import { ThemeProvider } from "@emotion/react";
+// import { createTheme } from '@mui/material/styles';
 
 interface Data {
   genre: string;
@@ -45,8 +45,8 @@ function createData(
 }
 
 const rows = [
-  createData("Valorant", "Action", 5, 8),
-  createData("FIFA 2022", "Sports", 4, 8.4)
+  createData("Valorant", "Action", 4, 67),
+  createData("FIFA 2022", "Sports", 2, 51)
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -65,9 +65,9 @@ function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
 ): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
-) => number {
+    a: { [key in Key]: number | string },
+    b: { [key in Key]: number | string }
+  ) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -120,7 +120,7 @@ const headCells: readonly HeadCell[] = [
     id: "rating",
     numeric: true,
     disablePadding: false,
-    label: "Rating (out of 10)"
+    label: "Rating (out of 100)"
   }
 ];
 
@@ -223,12 +223,12 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: "1 1 100%", fontFamily: 'Georgia', textAlign:'center'}}
+          sx={{ flex: "1 1 100%", fontFamily: 'Georgia', textAlign: 'center' }}
           variant="h5"
           id="tableTitle"
           component="div"
         >
-          MY SAVED GAMES
+          Games
         </Typography>
       )}
       {numSelected > 0 ? (
@@ -331,9 +331,9 @@ export default function EnhancedTable() {
   // });
 
   return (
-    <Box sx={{ width: "100%", p: 8, bgcolor:'#2f2f2f' }}>
+    <Box sx={{ width: "100%", p: 8, bgcolor: '#2f2f2f' }}>
       {/* <ThemeProvider theme={tableTheme}> */}
-      <Paper sx={{ width: "100%", mb: 1, bgcolor:"#E6D7D9" }}>
+      <Paper sx={{ width: "100%", mb: 1, bgcolor: "#E6D7D9" }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
@@ -348,7 +348,7 @@ export default function EnhancedTable() {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
-              
+
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
@@ -405,8 +405,8 @@ export default function EnhancedTable() {
             </TableBody>
           </Table>
         </TableContainer>
-        
-        
+
+
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
