@@ -9,7 +9,9 @@ const Games: NextPage = () => {
     return (
         <div>
             <Top page={1} />
-            <Typography>Games</Typography>
+            <div>
+                <EnhancedTable></EnhancedTable> 
+            </div>
         </div>
     )
 }
