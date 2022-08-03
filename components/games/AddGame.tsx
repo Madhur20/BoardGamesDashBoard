@@ -1,6 +1,5 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Dialog from '@mui/material/Dialog';
@@ -55,15 +54,12 @@ export default function AddGame() {
                         >
                             <CloseIcon />
                         </IconButton>
-                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                        <Typography sx={{ flex: 1, textAlign: 'center' }} variant="h6" component="div">
                             Add Game
                         </Typography>
-                        <Button autoFocus color="inherit" onClick={handleClose}>
-                            Save
-                        </Button>
                     </Toolbar>
                 </AppBar>
-                <Grid sx={{ justifyContent: 'center', marginTop: '10%' }}>
+                <Grid sx={{ justifyContent: 'center' }}>
                     <AddGameForm />
                 </Grid>
             </Dialog>

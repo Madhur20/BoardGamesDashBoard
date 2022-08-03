@@ -223,12 +223,12 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: "1 1 100%", fontFamily: 'Georgia', textAlign:'center'}}
+          sx={{ flex: "1 1 100%", fontFamily: 'Georgia', textAlign: 'center' }}
           variant="h5"
           id="tableTitle"
           component="div"
         >
-          MY SAVED GAMES
+          Games
         </Typography>
       )}
       {numSelected > 0 ? (

@@ -114,7 +114,7 @@ export default function AddGameForm() {
                     </FormControl>
                 </Grid>
                 <Grid sx={{ margin: '2%' }}>
-                    <div style={{ width: "400px" }}>
+                    <div style={{ width: "350px" }}>
                         Rating
                         <Slider
                             value={formValues.rating}
