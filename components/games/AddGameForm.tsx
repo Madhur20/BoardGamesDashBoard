@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import Grid from "@mui/material//Grid";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Slider from "@mui/material/Slider";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const defaultValues = {
     name: "",
@@ -21,31 +27,52 @@ const defaultValues = {
 export default function AddGameForm() {
     const [formValues, setFormValues] = useState(defaultValues);
 
-    const handleInputChange = (e: any) => {
-        const { name, value } = e.target;
-        console.log(name, value);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target as HTMLInputElement;
         setFormValues({
             ...formValues,
             [name]: value,
         });
     };
 
-    const handleSliderChange = (name: string) => (e: any, value: any) => {
+    const handleSliderChange = (name: string) => (event: Event, newValue: number | number[]) => {
         setFormValues({
             ...formValues,
-            [name]: value,
+            [name]: newValue,
         });
     };
 
-    const handleSubmit = (event: any) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log(formValues);
+        if (formValues.name.length > 0 && formValues.genre.length > 0) {
+            setSuccess(true);
+            handleClickSnack();
+        } else {
+            setSuccess(false);
+            handleClickSnack();
+        }
+    };
+
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [success, setSuccess] = React.useState(false);
+
+    const handleClickSnack = () => {
+        setSnackbarOpen(true);
+    };
+
+    const snackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setSnackbarOpen(false);
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Grid>
+                <Grid sx={{ margin: '2%' }}>
                     <TextField
                         id="name-input"
                         name="name"
@@ -55,9 +82,21 @@ export default function AddGameForm() {
                         onChange={handleInputChange}
                     />
                 </Grid>
-                <Grid item>
+                <Grid sx={{ margin: '2%' }}>
+                    <TextField
+                        id="max-players-input"
+                        name="maxPlayers"
+                        label="Max Players"
+                        type="number"
+                        value={formValues.maxPlayers}
+                        onChange={handleInputChange}
+                    />
+                </Grid>
+                <Grid sx={{ margin: '2%' }}>
                     <FormControl>
+                        <FormLabel id="genre">Genre</FormLabel>
                         <Select
+                            aria-labelledby="genre"
                             name="genre"
                             value={formValues.genre}
                             onChange={handleInputChange}
@@ -74,7 +113,7 @@ export default function AddGameForm() {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item>
+                <Grid sx={{ margin: '2%' }}>
                     <div style={{ width: "400px" }}>
                         Rating
                         <Slider
@@ -102,9 +141,18 @@ export default function AddGameForm() {
                         />
                     </div>
                 </Grid>
-                <Button variant="contained" color="primary" type="submit" onClick={handleSubmit}>
+                <Button variant="contained" color="primary" type="submit">
                     Submit
                 </Button>
+                <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={snackbarClose}>
+                    {success ?
+                        <Alert onClose={snackbarClose} severity="success" sx={{ width: '100%' }}>
+                            Game Inserted! Enjoy
+                        </Alert>
+                        : <Alert onClose={snackbarClose} severity="error" sx={{ width: '100%' }}>
+                            Invalid Input :( Please Try again.
+                        </Alert>}
+                </Snackbar>
             </Grid>
         </form>
     )
