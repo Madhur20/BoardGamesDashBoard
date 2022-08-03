@@ -8,7 +8,8 @@ import styles from '../styles/Home.module.css'
 
 export default function ButtonAppBar() {
   return (
-    <Box className={styles.container} sx={{ padding: 5, flex: 1 }}>
+    <Box  sx={{ padding: 5, flex: 1 }}>  
+    {/* className={styles.container} */}
       <AppBar position="fixed" sx={{ backgroundColor: "#262626", padding: 1 }}>
         <Toolbar>
           <Typography variant="h2" component="div" sx={{ flexGrow: 1, color: 'white', textAlign: 'center', fontFamily: "cursive" }}>

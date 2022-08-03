@@ -45,8 +45,8 @@ function createData(
 }
 
 const rows = [
-  createData("Valorant", "Action", 3.7, 67),
-  createData("FIFA 2022", "Sports", 25.0, 51)
+  createData("Valorant", "Action", 5, 8),
+  createData("FIFA 2022", "Sports", 4, 8.4)
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -223,12 +223,12 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
+          sx={{ flex: "1 1 100%", fontFamily: 'Georgia', textAlign:'center'}}
+          variant="h5"
           id="tableTitle"
           component="div"
         >
-          SAVED GAMES
+          MY SAVED GAMES
         </Typography>
       )}
       {numSelected > 0 ? (

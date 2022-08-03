@@ -12,7 +12,7 @@
   float: none;
   flex-direction: column;
   flex-wrap: wrap;
-  position: sticky;
+  /* position: sticky; */
   padding: 10 ;
 }
 
