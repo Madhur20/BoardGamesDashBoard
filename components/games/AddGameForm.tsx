@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Grid from "@mui/material//Grid";
+import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
