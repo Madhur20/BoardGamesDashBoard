@@ -6,6 +6,7 @@
   import AddNumPlayers from '../components/home/AddNumPlayers'
   import AddGenre from '../components/home/AddGenre'
 import FindGameButton from '../components/home/FindGameButton'
+import testBackEnd from '../pages/testBackend'
 
   const Home: NextPage = () => {
     return (
@@ -19,7 +20,7 @@ import FindGameButton from '../components/home/FindGameButton'
             </div>
             
             <div style={{display:'flex', padding:30, justifyContent:"center"}}><FindGameButton></FindGameButton></div>
-            
+            <div style={{display:'flex', padding:30, justifyContent:"center"}}>{testBackEnd()}</div>
           </div>
       </div>
     )

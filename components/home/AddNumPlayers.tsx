@@ -23,7 +23,7 @@ const MenuProps = {
 };
 
 const names = [
-  '1','2','3','4','5','6','7','8','9','10'
+  "1","2","3","4","5","6","7","8","9"
 ];
 
 function getStyles(name: string, personName: readonly string[], theme: Theme) {

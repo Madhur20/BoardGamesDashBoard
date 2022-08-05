@@ -72,6 +72,7 @@ export default function AddGenre() {
       <FormControl sx={{ bgcolor: "#e3e3e3", m: 1, width: 300,  }}>
         <InputLabel required focused={false} id="demo-multiple-chip-label" sx={{color:"#9C27B0"}}>Genre</InputLabel>
         <Select
+          defaultValue={[""]}
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           color="secondary"
