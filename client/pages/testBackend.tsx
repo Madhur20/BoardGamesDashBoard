@@ -26,12 +26,7 @@ export default function testBackEnd() {
 
     return(
         <div style={{color:'black', backgroundColor:'white'}}>
-            {(backendData!==undefined)?
-                (<p>{backendData.map((value:string)=>value)}</p>):(<p>Loading...</p>)
-                // backendData.users.map((user: string, i : number) => {
-                //     <p key={i}>{user}</p>
-                // })
-            }
+            <h2>{backendData}</h2>
         </div>
     )
 }
