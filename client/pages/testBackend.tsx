@@ -26,7 +26,7 @@ export default function testBackEnd() {
 
     return(
         <div style={{color:'black', backgroundColor:'white'}}>
-            <h2>{backendData}</h2>
+            <h3>{backendData}</h3>
         </div>
     )
 }
