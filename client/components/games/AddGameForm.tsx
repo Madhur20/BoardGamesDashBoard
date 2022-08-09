@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import Box from "@mui/material/Box"
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import AddGenre from "./AddGenre";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -53,10 +54,10 @@ export default function AddGameForm() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(formValues);
-        if (formValues.name.length > 0 && formValues.genre.length > 0) {
+        if (formValues.name.length > 0 && formValues.genre.length > 0 && formValues.maxPlayers > 0) {
             setSuccess(true);
             handleClickSnack();
+            console.log(formValues);
         } else {
             setSuccess(false);
             handleClickSnack();
@@ -80,6 +81,9 @@ export default function AddGameForm() {
 
     return (
         <Box>
+            <Grid container sx={{ marginTop: 2, paddingRight: 2, display: 'flex', flexDirection: 'column', alignItems: 'end' }}>
+                <AddGenre />
+            </Grid>
             <form onSubmit={handleSubmit}>
                 <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Grid sx={{ margin: '2%' }}>
