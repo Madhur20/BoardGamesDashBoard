@@ -35,7 +35,7 @@ export default function AddGame() {
 
     return (
         <Box sx={{ '& > :not(style)': { m: 1 } }}>
-            <Fab color="primary" aria-label="add" onClick={handleClickOpen}>
+            <Fab aria-label="add" onClick={handleClickOpen} sx={{ color: "#9C27B0" }}>
                 <AddIcon />
             </Fab>
             <Dialog
@@ -44,7 +44,7 @@ export default function AddGame() {
                 onClose={handleClose}
                 TransitionComponent={Transition}
             >
-                <AppBar sx={{ position: 'relative' }}>
+                <AppBar sx={{ position: 'relative', backgroundColor: '#2f2f2f' }}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -59,7 +59,7 @@ export default function AddGame() {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Grid sx={{ justifyContent: 'center' }}>
+                <Grid sx={{ justifyContent: 'center', backgroundColor: '#E6D9D9', height: '100%', overflow: 'hidden' }}>
                     <AddGameForm />
                 </Grid>
             </Dialog>

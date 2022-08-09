@@ -80,18 +80,19 @@ export default function AddGameForm() {
     };
 
     return (
-        <Box>
+        <Box >
             <Grid container sx={{ marginTop: 2, paddingRight: 2, display: 'flex', flexDirection: 'column', alignItems: 'end' }}>
                 <AddGenre />
             </Grid>
             <form onSubmit={handleSubmit}>
                 <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Grid sx={{ margin: '2%' }}>
+                    <Grid sx={{ margin: '2%', color: "#9C27B0" }}>
                         <TextField
                             id="name-input"
                             name="name"
                             label="Name"
                             type="text"
+                            color="secondary"
                             value={formValues.name}
                             onChange={handleInputChange}
                         />
@@ -102,18 +103,20 @@ export default function AddGameForm() {
                             name="maxPlayers"
                             label="Max Players"
                             type="number"
+                            color="secondary"
                             value={formValues.maxPlayers}
                             onChange={handleInputChange}
                         />
                     </Grid>
                     <Grid sx={{ margin: '2%' }}>
                         <FormControl>
-                            <FormLabel id="genre">Genre</FormLabel>
+                            <FormLabel id="genre" color="secondary">Genre</FormLabel>
                             <Select
                                 aria-labelledby="genre"
                                 name="genre"
                                 value={formValues.genre}
                                 onChange={handleInputSelect}
+                                color="secondary"
                             >
                                 <MenuItem key="action" value="Action">
                                     Action
@@ -134,6 +137,7 @@ export default function AddGameForm() {
                                 value={formValues.rating}
                                 onChange={handleSliderChange("rating")}
                                 defaultValue={0}
+                                color="secondary"
                                 step={1}
                                 min={0}
                                 max={100}
@@ -155,7 +159,7 @@ export default function AddGameForm() {
                             />
                         </div>
                     </Grid>
-                    <Button variant="contained" color="primary" type="submit">
+                    <Button variant="contained" color="secondary" type="submit">
                         Add Game
                     </Button>
                     <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={snackbarClose}>

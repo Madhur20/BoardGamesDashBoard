@@ -63,7 +63,7 @@ export default function AddGenre() {
 
     return (
         <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
+            <Button variant="outlined" color="secondary" onClick={handleClickOpen}>
                 Add Genre
             </Button>
             <Dialog open={open} onClose={handleClose}>
@@ -80,12 +80,13 @@ export default function AddGenre() {
                         fullWidth
                         variant="standard"
                         value={genre}
+                        color="secondary"
                         onChange={handleInputChange}
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={handleSubmit}>Create</Button>
+                    <Button onClick={handleClose} color="secondary">Cancel</Button>
+                    <Button type="submit" onClick={handleSubmit} color="secondary">Create</Button>
                 </DialogActions>
                 <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={snackbarClose}>
                     {success ?
