@@ -11,6 +11,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Box from "@mui/material/Box"
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import AddGenre from "./AddGenre";
+import axios from "axios";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -22,7 +23,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 const defaultValues = {
     name: "",
     genre: "",
-    maxPlayers: 0,
+    players: "0",
     rating: 0,
 };
 
@@ -54,10 +55,19 @@ export default function AddGameForm() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (formValues.name.length > 0 && formValues.genre.length > 0 && formValues.maxPlayers > 0) {
+
+        const newGame = {
+            name: formValues.name,
+            genre: formValues.genre,
+            players: formValues.players,
+            rating: formValues.rating,
+        }
+
+        if (formValues.name.length > 0 && formValues.genre.length > 0 && formValues.players > "0") {
             setSuccess(true);
             handleClickSnack();
-            console.log(formValues);
+            // console.log(formValues);
+            axios.post('http://localhost:8080/addGame', newGame)
         } else {
             setSuccess(false);
             handleClickSnack();
@@ -99,12 +109,12 @@ export default function AddGameForm() {
                     </Grid>
                     <Grid sx={{ margin: '2%' }}>
                         <TextField
-                            id="max-players-input"
-                            name="maxPlayers"
+                            id="players-input"
+                            name="players"
                             label="Max Players"
                             type="number"
                             color="secondary"
-                            value={formValues.maxPlayers}
+                            value={formValues.players}
                             onChange={handleInputChange}
                         />
                     </Grid>

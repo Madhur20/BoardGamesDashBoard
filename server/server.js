@@ -24,10 +24,13 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use(morgan("dev"));
 app.use(helmet())
 app.use(cors({origin: true, credentials: true}));
+app.use(express.json());
 
 //route
 const testRoutes = require('./routes/testapi');
 app.use("/", testRoutes);
+const addGameRoute = require('./routes/AddGameRoute');
+app.use("/", addGameRoute);    // or   app.use("/", require("./routes/AddGameRoute")); 
 
 //port
 const port = process.env.PORT || 8080
