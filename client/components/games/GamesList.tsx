@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -20,34 +21,27 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-// import { ThemeProvider } from "@emotion/react";
-// import { createTheme } from '@mui/material/styles';
 
 interface Data {
+  name: string;
   genre: string;
+  players: string;
   rating: number;
-  players: number;
-  game: string;
 }
 
 function createData(
-  game: string,
+  name: string,
   genre: string,
-  players: number,
+  players: string,
   rating: number
 ): Data {
   return {
-    game,
+    name,
     genre,
     players,
     rating
   };
 }
-
-const rows = [
-  createData("Valorant", "Action", 4, 67),
-  createData("FIFA 2022", "Sports", 2, 51)
-];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -99,10 +93,10 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: "game",
+    id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Game"
+    label: "Name"
   },
   {
     id: "genre",
@@ -249,6 +243,26 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 };
 
 export default function EnhancedTable() {
+  // const rows = [
+  //   createData("Valorant", "Action", "4", 67),
+  //   createData("FIFA 2022", "Sports", "2", 51)
+  // ];
+  const [games, setGames] = useState([{
+    name: "",
+    genre: "",
+    players: "",
+    rating: 0
+  }])
+
+  useEffect(() => {
+    fetch("http://localhost:8080/putGame").then(res => res.json())
+    .then(jsonRes => {
+      setGames(jsonRes); 
+      // console.log(jsonRes);
+    }
+    )
+  })
+
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("genre");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -267,7 +281,7 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.game);
+      const newSelected = games.map((n) => n.name);
       setSelected(newSelected);
       return;
     }
@@ -313,7 +327,7 @@ export default function EnhancedTable() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - games.length) : 0;
 
   // const tableTheme = createTheme({
   //   components: {
@@ -347,26 +361,26 @@ export default function EnhancedTable() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={games.length}
 
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
               rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(games, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.game);
+                  const isItemSelected = isSelected(games.toString.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.game)}
+                      onClick={(event) => handleClick(event, games.toString.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.game}
+                      key={row.name}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -385,7 +399,7 @@ export default function EnhancedTable() {
                         padding="none"
                         align="center"
                       >
-                        {row.game}
+                        {row.name}
                       </TableCell>
                       <TableCell align="center">{row.genre}</TableCell>
                       <TableCell align="center">{row.players}</TableCell>
@@ -410,7 +424,7 @@ export default function EnhancedTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={Object.keys(games.toString).length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
