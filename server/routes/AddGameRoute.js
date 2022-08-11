@@ -25,4 +25,20 @@ router.route("/putGame").get((req, res) => {
     .then(foundGame => res.json(foundGame))
 })
 
+//DELETE Game
+router.route("/deleteGame/:id").delete((req, res) => {
+    const id = req.params.id;
+    console.log(req.params.id);
+    // gameids.map(()=>{
+        addGame.deleteOne({name : id}, (req, res, err) => {
+            if(!err){
+                console.log("Game is deleted!!!");
+            } else {
+                console.log(err);
+            }
+        // })
+    })
+
+})
+
 module.exports = router;

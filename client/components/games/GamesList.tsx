@@ -18,9 +18,11 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
+// import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import axios from "axios";
 
 interface Data {
   name: string;
@@ -185,19 +187,29 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-interface EnhancedTableToolbarProps {
-  numSelected: number;
+// interface EnhancedTableToolbarProps {
+//   numSelected: number;
+//   gameid = number;
+// }
+
+function deleteGame(gameid: readonly string[]) {
+  const id = gameid;
+  console.log(id);
+  id.map((name) => {
+    axios.delete("http://localhost:8080/deleteGame/"+name);
+    console.log("Game deleted");
+  })
 }
 
-const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected } = props;
-
+const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly string[]} ) => {
+  const numselected:number = props.numSelected;
+  const gameid: readonly string[] = props.gameid;
   return (
     <Toolbar
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
+        ...(numselected > 0 && {
           bgcolor: (theme) =>
             alpha(
               theme.palette.primary.main,
@@ -206,14 +218,14 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         })
       }}
     >
-      {numSelected > 0 ? (
+      {numselected > 0 ? (
         <Typography
           sx={{ flex: "1 1 100%" }}
           color="inherit"
           variant="subtitle1"
           component="div"
         >
-          {numSelected} selected
+          {numselected} selected
         </Typography>
       ) : (
         <Typography
@@ -225,10 +237,11 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           Games
         </Typography>
       )}
-      {numSelected > 0 ? (
+      {numselected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
+          <IconButton onClick={() => deleteGame(gameid)}>
+
+            <DeleteTwoToneIcon />
           </IconButton>
         </Tooltip>
       ) : (
@@ -289,6 +302,7 @@ export default function EnhancedTable() {
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+    // console.log("item selected " + { name } + name);
     const selectedIndex = selected.indexOf(name);
     let newSelected: readonly string[] = [];
 
@@ -329,26 +343,11 @@ export default function EnhancedTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - games.length) : 0;
 
-  // const tableTheme = createTheme({
-  //   components: {
-  //     // Name of the component
-  //     MuiPaper: {
-  //       styleOverrides: {
-  //         // Name of the slot
-  //         root: {
-  //           // Some CSS
-  //           backgroundColor: '#E6D7D9',
-  //         },
-  //       },
-  //     },
-  //   },
-  // });
-
   return (
     <Box sx={{ width: "100%", p: 8, bgcolor: '#2f2f2f' }}>
       {/* <ThemeProvider theme={tableTheme}> */}
       <Paper sx={{ width: "100%", mb: 1, bgcolor: "#E6D7D9" }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} gameid={selected} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -370,13 +369,13 @@ export default function EnhancedTable() {
               {stableSort(games, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(games.toString.name);
+                  const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, games.toString.name)}
+                      onClick={(event) => handleClick(event, row.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
