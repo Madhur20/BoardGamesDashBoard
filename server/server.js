@@ -32,6 +32,7 @@ app.use("/", testRoutes);
 const addGameRoute = require('./routes/AddGameRoute');
 app.use("/", addGameRoute);    // or   app.use("/", require("./routes/AddGameRoute")); 
 
+
 //port
 const port = process.env.PORT || 8080
 

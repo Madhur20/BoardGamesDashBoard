@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
@@ -67,7 +67,7 @@ export default function AddGameForm() {
             setSuccess(true);
             handleClickSnack();
             // console.log(formValues);
-            axios.post('http://localhost:8080/addGame', newGame)
+            axios.post('http://localhost:8080/addGame', newGame);
         } else {
             setSuccess(false);
             handleClickSnack();
@@ -89,12 +89,28 @@ export default function AddGameForm() {
         setSnackbarOpen(false);
     };
 
+    // const [games, setGames] = useState([{
+    //     name: "",
+    //     genre: "",
+    //     players: "",
+    //     rating: 0
+    //   }])
+    
+    //   useEffect(() => {
+    //     fetch("http://localhost:8080/putGame").then(res => res.json())
+    //     .then(jsonRes => {
+    //       setGames(jsonRes); 
+    //       // console.log(jsonRes);
+    //     }
+    //     )
+    //   },[setGames])
+
     return (
         <Box >
             <Grid container sx={{ marginTop: 2, paddingRight: 2, display: 'flex', flexDirection: 'column', alignItems: 'end' }}>
                 <AddGenre />
             </Grid>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} >
                 <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Grid sx={{ margin: '2%', color: "#9C27B0" }}>
                         <TextField
