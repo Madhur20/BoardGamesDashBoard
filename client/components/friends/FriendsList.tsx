@@ -48,9 +48,7 @@ export default function InteractiveList() {
                     Friends
                 </Typography>
                 <Demo sx={{ bgcolor: '#E6D9D9', alignItem: 'center', color: 'black' }}>
-                    {/* <List dense={dense}> */}
                     {generate(<ListItem></ListItem>)}
-                    {/* </List> */}
                 </Demo>
             </Grid>
         </Box>

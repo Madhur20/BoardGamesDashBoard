@@ -8,8 +8,10 @@ const Games: NextPage = () => {
     return (
         <div>
             <Top page={1} />
-            <EnhancedTable></EnhancedTable>
-            <AddGame />
+            <div>
+                <EnhancedTable></EnhancedTable>
+                <AddGame />
+            </div>
         </div>
     )
 }
