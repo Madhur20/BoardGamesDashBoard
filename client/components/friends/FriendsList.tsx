@@ -1,4 +1,5 @@
 import * as React from 'react';
+// import {useState, useEffect} from 'React';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
@@ -9,19 +10,40 @@ import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { VideoLabelOutlined } from '@mui/icons-material';
+import axios from 'axios';
 
-const names = [
-    "Josh",
-    "Adam",
-    "Sam",
-    "Michael"
-];
+function deleteGame(friendid: string) {
+    const id = friendid;
+    // console.log(id);
+    axios.delete("http://localhost:8080/deleteFriend/"+id);
+      // console.log("Game deleted");
+  }
 
 function generate(element: React.ReactElement) {
-    return names.map((value) =>
-        <ListItem key={value}
+    
+    const [names, setNames] = React.useState([{
+        name: "",
+    }]);
+
+    // console.log(names);
+
+    React.useEffect(() => {
+        try {
+            fetch("http://localhost:8080/putFriend").then(res => res.json())
+            .then(jsonRes => {
+                setNames(jsonRes); 
+                // console.log(jsonRes);
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    return names.map((value) => 
+        <ListItem key={value.name}
             secondaryAction={
-                <IconButton edge="end" aria-label="delete">
+                <IconButton edge="end" aria-label="delete" onClick={() => deleteGame(value.name)}>
                     <h6>Remove Friend</h6>
                     <DeleteIcon />
                 </IconButton>
@@ -29,7 +51,7 @@ function generate(element: React.ReactElement) {
             <ListItemAvatar>
                 <Avatar></Avatar>
             </ListItemAvatar>
-            <ListItemText>{value}</ListItemText>
+            <ListItemText>{value.name}</ListItemText>
         </ListItem>
     );
 }
@@ -39,7 +61,7 @@ const Demo = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
 }));
 
-export default function InteractiveList() {
+export default function InteractiveList() {    
 
     return (
         <Box sx={{ bgcolor: '#2f2f2f', p: 8 }}>
