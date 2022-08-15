@@ -10,6 +10,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Snackbar } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import axios  from 'axios';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -50,11 +51,21 @@ export default function AddFriend() {
         setSnackbarOpen(false);
     };
 
-    const handleSubmit = () => {
-        console.log(name);
+    const handleSubmit = (name:string) => {
+        
+        const friendName = {name};
         if (name.length > 0) {
+            cancelAnimationFrame
             setSuccess(true);
             handleClickSnack();
+            try {
+                axios.post('http://localhost:8080/addFriend', friendName);
+                // console.log(friendName);
+            } catch (error) {
+                console.log(error);
+                
+            }
+            
         } else {
             setSuccess(false);
             handleClickSnack();
@@ -88,7 +99,7 @@ export default function AddFriend() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="secondary">Cancel</Button>
-                    <Button type="submit" onClick={handleSubmit} color="secondary">Add</Button>
+                    <Button type="submit" onClick={() => handleSubmit(name)} color="secondary">Add</Button>
                 </DialogActions>
                 <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={snackbarClose}>
                     {success ?

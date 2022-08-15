@@ -194,10 +194,10 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 function deleteGame(gameid: readonly string[]) {
   const id = gameid;
-  console.log(id);
+  // console.log(id);
   id.map((name) => {
     axios.delete("http://localhost:8080/deleteGame/"+name);
-    console.log("Game deleted");
+    // console.log("Game deleted");
   })
 }
 
@@ -240,7 +240,6 @@ const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly stri
       {numselected > 0 ? (
         <Tooltip title="Delete">
           <IconButton onClick={() => deleteGame(gameid)}>
-
             <DeleteTwoToneIcon />
           </IconButton>
         </Tooltip>
