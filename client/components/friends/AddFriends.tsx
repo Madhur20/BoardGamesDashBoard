@@ -51,27 +51,23 @@ export default function AddFriend() {
         setSnackbarOpen(false);
     };
 
-    const handleSubmit = (name:string) => {
-        
+    const handleSubmit = (name: string) => {
         const friendName = {name};
         if (name.length > 0) {
-            cancelAnimationFrame
+            // cancelAnimationFrame
             setSuccess(true);
             handleClickSnack();
-            try {
-                axios.post('http://localhost:8080/addFriend', friendName);
+            axios.post('http://localhost:8080/addFriend', friendName);
                 // console.log(friendName);
-            } catch (error) {
-                console.log(error);
-                
-            }
-            
         } else {
             setSuccess(false);
             handleClickSnack();
-        }
+        } 
 
-        handleClose;
+        setTimeout(() => {
+            snackbarClose();
+            handleClose();
+        }, 1000);
     };
 
     return (
