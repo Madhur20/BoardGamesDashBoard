@@ -6,7 +6,7 @@ import Top from '../components/Top';
 const Guide: NextPage = () => {
     return (
         <div>
-            <Top page={4} />
+            <Top page={3} />
             <Typography>Guide</Typography>
         </div>
     )

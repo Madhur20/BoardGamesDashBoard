@@ -7,7 +7,7 @@ import AddGame from '../components/games/AddGame';
 const Games: NextPage = () => {
     return (
         <div>
-            <Top page={2} />
+            <Top page={1} />
             <div>
                 <EnhancedTable></EnhancedTable>
                 <AddGame />

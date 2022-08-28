@@ -10,7 +10,7 @@ import testBackEnd from '../pages/testBackend'
 const Home: NextPage = () => {
   return (
     <div className={styles.container1}>
-      <Top page={1} />
+      <Top page={0} />
       <div style={{ paddingTop: 150, display: 'flex', flexDirection: 'column', padding: 50, backgroundColor: "#2f2f2f", justifyContent: "center" }}>
         <div style={{ display: 'flex', padding: 30, paddingBottom: 100, backgroundColor: "#2f2f2f", justifyContent: "center" }}>
           <div style={{ padding: 30 }}><AddFriends></AddFriends></div>
