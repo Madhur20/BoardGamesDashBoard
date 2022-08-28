@@ -14,7 +14,7 @@ export default function CenteredTabs(props: any) {
   return (
     <Box sx={{padding:1 ,width: '100%', bgcolor: '#333333' }}>
       <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary" centered>
-        <Link href="/" passHref><Tab label="Home" /></Link>
+        <Link href="/home" passHref><Tab label="Home" /></Link>
         <Link href="/games" passHref><Tab label="Games" /></Link>
         <Link href="/friends" passHref><Tab label="Friends" /></Link>
         <Link href="/guide" passHref><Tab label="Guide" /></Link>
