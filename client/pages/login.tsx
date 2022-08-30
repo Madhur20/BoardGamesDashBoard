@@ -3,13 +3,12 @@ import { NextPage } from 'next';
 import React from 'react';
 import Top from '../components/Top';
 
-const Guide: NextPage = () => {
+const login: NextPage = () => {
     return (
         <div>
-            <Top page={4} />
-            <Typography>Guide</Typography>
+            <Typography>Login</Typography>
         </div>
     )
 }
 
-export default Guide;
+export default login;

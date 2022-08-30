@@ -27,6 +27,10 @@ app.use(cors({origin: true, credentials: true}));
 app.use(express.json());
 
 //route
+const userRoutes = require('./routes/UserRoute');
+app.use("/", userRoutes);
+const authRoutes = require('./routes/AuthRoute');
+app.use("/", authRoutes);
 const testRoutes = require('./routes/testapi');
 app.use("/", testRoutes);
 const addGameRoute = require('./routes/AddGameRoute');

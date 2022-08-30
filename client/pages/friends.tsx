@@ -7,7 +7,7 @@ import AddFriend from '../components/friends/AddFriends';
 const Friend: NextPage = () => {
     return (
         <div>
-            <Top page={2} />
+            <Top page={3} />
             <div>
                 <InteractiveList></InteractiveList>
                 <AddFriend />
