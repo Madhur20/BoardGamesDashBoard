@@ -1,7 +1,7 @@
 const router  = require("express").Router();
 const {user, validate} = require("../models/UserModel");
 
-router.post("/", async (res,req) => {
+router.post("/singup", async (res,req) => {
     try {
         const{error} = validate(req.body);
         if(error){
