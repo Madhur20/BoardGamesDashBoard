@@ -12,13 +12,14 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import AppBar from '../components/AppBar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 function Copyright(props: any) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+    <Typography variant="body2" color="secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" target="_blank" href="https://github.com/Madhur20/BoardGamesDashBoard">
         Game DashBoard
       </Link>{' '}
       {new Date().getFullYear()}
@@ -43,6 +44,7 @@ const signup: NextPage = () => {
         <ThemeProvider theme={theme}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
+            <AppBar />
             <Box
               sx={{
               marginTop: 8,
@@ -60,29 +62,34 @@ const signup: NextPage = () => {
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
+                color="secondary"
                 required
                 fullWidth
                 id="username"
                 label="Username"
                 name="username"
+                sx={{bgcolor: "#eaeaea"}}
                 autoFocus
               />
               <TextField
                 margin="normal"
+                color="secondary"
                 required
                 fullWidth
                 name="password"
                 label="Password"
                 type="password"
                 id="password"
+                sx={{bgcolor: "#eaeaea"}}
                 autoComplete="current-password"
               />
               <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+                control={<Checkbox disableRipple value="remember" color="primary" sx={{ margin: 1, padding: 0, bgcolor: "#eaeaea" }} />}
+                label="Remember me"
               />
               <Button
                 type="submit"
+                color="secondary"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
