@@ -1,12 +1,20 @@
 const router  = require("express").Router();
-const {user, validate} = require("../models/UserModel");
+const {user} = require("../models/UserModel");
 const bcrypt = require("bcrypt");
+const Joi = require('joi');
+const passwordComplexity = require("joi-password-complexity");
+
+const schema = Joi.object({
+    userName: Joi.string().required().label("User Name"),
+    password: passwordComplexity().required().label("Password"),
+});
 
 router.route("/signup").post(async (req, res) =>{
     try {
-        const {error} = user.validate(req.body);
+        const {error} = schema.validate(req.body);
+        // console.log(error);
         if (error){
-            return res.status(400).send({messgae:error.details[0].message})
+            return res.status(400).send({message: error.details[0].message})
         }
         const User = await user.find({userName: req.body.userName});
         if (User.length>0){

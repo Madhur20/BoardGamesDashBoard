@@ -1,11 +1,16 @@
 const router = require("express").Router();
 const{user} = require("../models/UserModel");
-const joi = require("joi");
+const Joi = require("joi");
 const bcrypt = require("bcrypt");
+
+const schema = Joi.object({
+    userName: Joi.string().required().label("User Name"),
+    password: Joi.string().required().label("Password"),
+});
 
 router.route("/login").post(async (req, res) =>{
     try {
-        const {error} = user.validate(req.body);
+        const {error} = schema.validate(req.body);
         if(error){
             return res.status(400).send({message: error.details[0].message});
         }
@@ -29,13 +34,5 @@ router.route("/login").post(async (req, res) =>{
         res.status(500).send({message: "Internal Server Error"});
     }
 })
-
-const validate = (data) => {
-    const schema = joi.object({
-        userName: joi.string().userName().required().label("User Name"),
-        password: joi.string().required().label("Password"),
-    });
-    return schema.validate(data);
-}
 
 module.exports = router;
