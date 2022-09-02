@@ -52,7 +52,7 @@ export default function AddFriend() {
     };
 
     const handleSubmit = (name: string) => {
-        const friendName = {name};
+        const friendName = {name}; 
         if (name.length > 0) {
             // cancelAnimationFrame
             setSuccess(true);

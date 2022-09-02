@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import AppBar from '../components/AppBar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
 
 function Copyright(props: any) {
   return (
@@ -31,13 +32,16 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 const Index: NextPage = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('username'),
+    const user = {
+      userName: data.get('username'),
       password: data.get('password'),
-    });
+    }
+    console.log(user);
+    const check = await axios.post('http://localhost:8080/login', user);
+    console.log(check);
   };
 
   return (

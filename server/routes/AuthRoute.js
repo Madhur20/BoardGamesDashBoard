@@ -3,12 +3,14 @@ const{user} = require("../models/UserModel");
 const joi = require("joi");
 const bcrypt = require("bcrypt");
 
-router.post("/login", async (req,res) => {
+router.route("/login").post(async (req, res) =>{
+    console.log("login server reached");
+// router.post("/login", async (req,res) => {
     try {
-        const {error} = validate(req.body);
-        if(error){
-            return res.status(400).send({message: error.details[0].message});
-        }
+        // const {error} = validate(req.body);
+        // if(error){
+        //     return res.status(400).send({message: error.details[0].message});
+        // }
         const User = await user.findOne({userName: req.body.userName});
 
         if(!User){
@@ -32,7 +34,7 @@ router.post("/login", async (req,res) => {
 
 const validate = (data) => {
     const schema = joi.object({
-        userName: joi.string().userName().required().label("User Name"),
+        userName: joi.string().userName().required().label("userName"),
         password: joi.string().required().label("Password"),
     });
     return schema.validate(data);
