@@ -1,12 +1,10 @@
 import React from 'react';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -55,7 +53,7 @@ const Index: NextPage = () => {
         localStorage.setItem("auth", "true");
         localStorage.setItem("username", JSON.stringify(usernameLocal));
       }
-      router.push('/home')
+      router.push('/home');
     }
 
     console.log("Login Error");
@@ -103,10 +101,6 @@ const Index: NextPage = () => {
             id="password"
             sx={{bgcolor: "#eaeaea"}}
             autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox disableRipple value="remember" color="secondary" sx={{ margin: 1, padding: 0, bgcolor: "#eaeaea"}} />}
-            label="Remember me"
           />
           <Button
             type="submit"

@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonAppBar from './AppBar';
+import ButtonAppBarLogout from './AppBarLogout';
 import CenteredTabs from './MenuBar';
 
 export default function Top(props: any) {
@@ -7,7 +7,7 @@ export default function Top(props: any) {
         <div>
             <div >
                 <div >
-                    <ButtonAppBar />
+                    <ButtonAppBarLogout />
                 </div>
                 <div >
                     <CenteredTabs page={props.page} />
