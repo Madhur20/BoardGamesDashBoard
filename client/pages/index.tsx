@@ -1,5 +1,6 @@
-import { NextPage } from 'next';
 import React from 'react';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -32,6 +33,8 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 const Index: NextPage = () => {
+  const router = useRouter();
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -39,9 +42,20 @@ const Index: NextPage = () => {
       userName: data.get('username'),
       password: data.get('password'),
     }
-    console.log(user);
+
     const check = await axios.post('http://localhost:8080/login', user);
-    console.log(check);
+    // console.log(check);
+    
+    if (check && check.status === 200) {
+      const usernameLocal = user.userName ? user.userName.toString() : "invalid";
+      if (typeof window !== undefined) {
+        localStorage.setItem("auth", "true");
+        localStorage.setItem("username", JSON.stringify(usernameLocal));
+      }
+      router.push('/home')
+    }
+
+    console.log("Login Error");
   };
 
   return (
