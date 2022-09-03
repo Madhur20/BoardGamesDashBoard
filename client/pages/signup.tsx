@@ -32,6 +32,11 @@ const theme = createTheme();
 
 const signup: NextPage = () => {
   const router = useRouter();
+
+  if (typeof window !== "undefined") {
+    localStorage.setItem("auth", "false");
+  }
+  
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -44,10 +49,13 @@ const signup: NextPage = () => {
         console.log(check);
 
         if (check && check.status === 201) {
+          const usernameLocal = user.userName ? user.userName.toString() : "invalid";
+          if (typeof window !== "undefined") {
+            localStorage.setItem("auth", "true");
+            localStorage.setItem("username", JSON.stringify(usernameLocal));
+          }
           router.push('/home');
         }
-
-        alert("SIGNUP ERROR");
       };
     
       return (
