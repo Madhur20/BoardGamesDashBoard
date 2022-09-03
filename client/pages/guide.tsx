@@ -10,7 +10,7 @@ const Guide: NextPage = () => {
     return (
         <div>
             <Top page={3} />
-            <Typography>Guide For GameDashBoard</Typography>
+            <Typography>Guide For Games Dashboard</Typography>
         </div>
     )
 }
