@@ -1,13 +1,16 @@
-import type { NextPage } from 'next'
-import styles from '../styles/Home.module.css'
-import Top from '../components/Top'
-import AddFriends from '../components/home/AddFriends'
-import AddNumPlayers from '../components/home/AddNumPlayers'
-import AddGenre from '../components/home/AddGenre'
-import FindGameButton from '../components/home/FindGameButton'
-import testBackEnd from '../pages/testBackend'
+import type { NextPage } from 'next';
+import styles from '../styles/Home.module.css';
+import Top from '../components/Top';
+import AddFriends from '../components/home/AddFriends';
+import AddNumPlayers from '../components/home/AddNumPlayers';
+import AddGenre from '../components/home/AddGenre';
+import FindGameButton from '../components/home/FindGameButton';
+import testBackEnd from '../pages/testBackend';
+import isUserAuth from '../components/isAuthenticated';
 
 const Home: NextPage = () => {
+  isUserAuth();
+  
   return (
     <div className={styles.container1}>
       <Top page={0} />

@@ -1,5 +1,6 @@
-import { NextPage } from 'next';
 import React from 'react';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import AppBar from '../components/AppBar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
 
 function Copyright(props: any) {
   return (
@@ -31,13 +33,32 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 const Index: NextPage = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+  if (typeof window !== "undefined") {
+    localStorage.setItem("auth", "false");
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('username'),
+    const user = {
+      userName: data.get('username'),
       password: data.get('password'),
-    });
+    }
+
+    const check = await axios.post('http://localhost:8080/login', user);
+    // console.log(check);
+    
+    if (check && check.status === 200) {
+      const usernameLocal = user.userName ? user.userName.toString() : "invalid";
+      if (typeof window !== "undefined") {
+        localStorage.setItem("auth", "true");
+        localStorage.setItem("username", JSON.stringify(usernameLocal));
+      }
+      router.push('/home')
+    }
+
+    console.log("Login Error");
   };
 
   return (

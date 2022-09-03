@@ -3,8 +3,11 @@ import React from 'react';
 import Top from '../components/Top';
 import InteractiveList from '../components/friends/FriendsList';
 import AddFriend from '../components/friends/AddFriends';
+import isUserAuth from '../components/isAuthenticated';
 
 const Friend: NextPage = () => {
+    isUserAuth();
+
     return (
         <div>
             <Top page={2} />

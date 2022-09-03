@@ -1,16 +1,23 @@
 const router  = require("express").Router();
-const {user, validate} = require("../models/UserModel");
+const {user} = require("../models/UserModel");
 const bcrypt = require("bcrypt");
+const Joi = require('joi');
+const passwordComplexity = require("joi-password-complexity");
 
-router.post("/signup", async (res,req) => {
+const schema = Joi.object({
+    userName: Joi.string().required().label("User Name"),
+    password: passwordComplexity().required().label("Password"),
+});
+
+router.route("/signup").post(async (req, res) =>{
     try {
-        const{error} = validate(req.body);
-        if(error){
-            return res.status(400).send({messgae:error.details[0].message})
+        const {error} = schema.validate(req.body);
+        // console.log(error);
+        if (error){
+            return res.status(400).send({message: error.details[0].message})
         }
-        const User = await user.findOne({userName: res.body.userName});
-
-        if(User){
+        const User = await user.find({userName: req.body.userName});
+        if (User.length>0){
             return res.status(409).send({message: "User Name already taken!"})
         }
         const salt = await bcrypt.genSalt(Number(process.env.SALT));
