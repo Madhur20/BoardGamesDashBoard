@@ -5,7 +5,6 @@ import AddFriends from '../components/home/AddFriends';
 import AddNumPlayers from '../components/home/AddNumPlayers';
 import AddGenre from '../components/home/AddGenre';
 import FindGameButton from '../components/home/FindGameButton';
-import testBackEnd from '../pages/testBackend';
 import isUserAuth from '../components/isAuthenticated';
 
 const Home: NextPage = () => {
@@ -21,8 +20,7 @@ const Home: NextPage = () => {
           <div style={{ padding: 30 }}><AddGenre></AddGenre></div>
         </div>
 
-        <div style={{ display: 'flex', padding: 30, justifyContent: "center" }}><FindGameButton></FindGameButton></div>
-        <div style={{ display: 'flex', padding: 30, justifyContent: "center" }}>{testBackEnd()}</div>
+        <div style={{ display: 'flex', padding: 30, justifyContent: "center" }}><FindGameButton /></div>
       </div>
     </div>
   )

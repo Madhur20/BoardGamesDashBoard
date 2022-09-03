@@ -2,11 +2,13 @@ const router  = require("express").Router();
 const {user} = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const Joi = require('joi');
-const passwordComplexity = require("joi-password-complexity");
+// const passwordComplexity = require("joi-password-complexity");
 
 const schema = Joi.object({
     userName: Joi.string().required().label("User Name"),
-    password: passwordComplexity().required().label("Password"),
+    // password: passwordComplexity().required().label("Password"),
+    password: Joi.string().required().label("Password"),
+
 });
 
 router.route("/signup").post(async (req, res) =>{

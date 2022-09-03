@@ -1,11 +1,10 @@
-import { NextPage } from 'next';
 import React from 'react';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -32,6 +31,12 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 const signup: NextPage = () => {
+  const router = useRouter();
+
+  if (typeof window !== "undefined") {
+    localStorage.setItem("auth", "false");
+  }
+  
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -39,9 +44,18 @@ const signup: NextPage = () => {
           userName: data.get('username'),
           password: data.get('password'),
         }
-        console.log(user);
+        // console.log(user);
         const check = await axios.post('http://localhost:8080/signup', user);
         console.log(check);
+
+        if (check && check.status === 201) {
+          const usernameLocal = user.userName ? user.userName.toString() : "invalid";
+          if (typeof window !== "undefined") {
+            localStorage.setItem("auth", "true");
+            localStorage.setItem("username", JSON.stringify(usernameLocal));
+          }
+          router.push('/home');
+        }
       };
     
       return (
@@ -86,10 +100,6 @@ const signup: NextPage = () => {
                 id="password"
                 sx={{bgcolor: "#eaeaea"}}
                 autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox disableRipple value="remember" color="primary" sx={{ margin: 1, padding: 0, bgcolor: "#eaeaea" }} />}
-                label="Remember me"
               />
               <Button
                 type="submit"
