@@ -34,6 +34,9 @@ const theme = createTheme();
 
 const Index: NextPage = () => {
   const router = useRouter();
+  if (typeof window !== "undefined") {
+    localStorage.setItem("auth", "false");
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -48,7 +51,7 @@ const Index: NextPage = () => {
     
     if (check && check.status === 200) {
       const usernameLocal = user.userName ? user.userName.toString() : "invalid";
-      if (typeof window !== undefined) {
+      if (typeof window !== "undefined") {
         localStorage.setItem("auth", "true");
         localStorage.setItem("username", JSON.stringify(usernameLocal));
       }
