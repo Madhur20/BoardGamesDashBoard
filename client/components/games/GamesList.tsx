@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -23,6 +23,7 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import axios from "axios";
+import { GlobalContext } from "../../pages/_app";
 
 interface Data {
   name: string;
@@ -192,16 +193,19 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 //   gameid = number;
 // }
 
-function deleteGame(gameid: readonly string[]) {
+async function deleteGame (gameid: readonly string[], userName: string) {
   const id = gameid;
   // console.log(id);
-  id.map((name) => {
-    axios.delete("http://localhost:8080/deleteGame/"+name);
+  id.map(async (name) => {
+    const nid = userName+"+"+name;
+    console.log(nid);
+    await axios.delete("http://localhost:8080/deleteGame/"+nid);
     // console.log("Game deleted");
   })
 }
 
 const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly string[]} ) => {
+  const { userName } = useContext(GlobalContext);
   const numselected:number = props.numSelected;
   const gameid: readonly string[] = props.gameid;
   return (
@@ -239,7 +243,7 @@ const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly stri
       )}
       {numselected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton onClick={() => deleteGame(gameid)}>
+          <IconButton onClick={() => deleteGame(gameid, userName)}>
             <DeleteTwoToneIcon />
           </IconButton>
         </Tooltip>
@@ -255,22 +259,20 @@ const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly stri
 };
 
 export default function EnhancedTable() {
-  // const rows = [
-  //   createData("Valorant", "Action", "4", 67),
-  //   createData("FIFA 2022", "Sports", "2", 51)
-  // ];
+  const { userName } = useContext(GlobalContext);
   const [games, setGames] = useState([{
     name: "",
     genre: "",
     players: "",
     rating: 0
-  }])
-
+  }]);
+  console.log(userName);
+  
   useEffect(() => {
-    fetch("http://localhost:8080/putGame").then(res => res.json())
+    fetch("http://localhost:8080/putGame"+userName).then(res => res.json())
     .then(jsonRes => {
       setGames(jsonRes); 
-      // console.log(jsonRes);
+      console.log(jsonRes);
     }
     )
   })
