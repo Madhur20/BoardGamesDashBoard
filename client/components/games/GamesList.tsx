@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { useState, useEffect } from "react";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -18,12 +17,12 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-// import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import axios from "axios";
 import { GlobalContext } from "../../pages/_app";
+import { GamesContext } from "../../pages/games";
 
 interface Data {
   name: string;
@@ -188,26 +187,30 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-// interface EnhancedTableToolbarProps {
-//   numSelected: number;
-//   gameid = number;
-// }
-
-async function deleteGame (gameid: readonly string[], userName: string) {
+async function deleteGame (gameid: readonly string[], userName: string, games: [], setGames: any) {
   const id = gameid;
   // console.log(id);
   id.map(async (name) => {
     const nid = userName+"+"+name;
-    console.log(nid);
-    await axios.delete("http://localhost:8080/deleteGame/"+nid);
-    // console.log("Game deleted");
+    await axios.delete("http://localhost:8080/deleteGame/" + nid);
+    
+    console.log(name);
+    const index: any = games.indexOf(name);
+    console.log(index);
+      if (index > -1) { // only splice array when item is found
+          games.splice(index, 1);
+      }
   })
+
+  setGames([...games]);
 }
 
 const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly string[]} ) => {
   const { userName } = useContext(GlobalContext);
+  const { games, setGames } = useContext(GamesContext);
   const numselected:number = props.numSelected;
   const gameid: readonly string[] = props.gameid;
+  
   return (
     <Toolbar
       sx={{
@@ -243,7 +246,7 @@ const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly stri
       )}
       {numselected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton onClick={() => deleteGame(gameid, userName)}>
+          <IconButton onClick={() => deleteGame(gameid, userName, games, setGames)}>
             <DeleteTwoToneIcon />
           </IconButton>
         </Tooltip>
@@ -260,22 +263,7 @@ const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly stri
 
 export default function EnhancedTable() {
   const { userName } = useContext(GlobalContext);
-  const [games, setGames] = useState([{
-    name: "",
-    genre: "",
-    players: "",
-    rating: 0
-  }]);
-  console.log(userName);
-  
-  useEffect(() => {
-    fetch("http://localhost:8080/putGame"+userName).then(res => res.json())
-    .then(jsonRes => {
-      setGames(jsonRes); 
-      console.log(jsonRes);
-    }
-    )
-  })
+  const { games } = useContext(GamesContext);
 
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("genre");
@@ -295,7 +283,7 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = games.map((n) => n.name);
+      const newSelected = games.map((n: { name: any; }) => n.name);
       setSelected(newSelected);
       return;
     }
@@ -346,7 +334,6 @@ export default function EnhancedTable() {
 
   return (
     <Box sx={{ width: "100%", p: 8, bgcolor: '#2f2f2f' }}>
-      {/* <ThemeProvider theme={tableTheme}> */}
       <Paper sx={{ width: "100%", mb: 1, bgcolor: "#E6D7D9" }}>
         <EnhancedTableToolbar numSelected={selected.length} gameid={selected} />
         <TableContainer>

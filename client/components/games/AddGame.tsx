@@ -60,7 +60,7 @@ export default function AddGame() {
                     </Toolbar>
                 </AppBar>
                 <Grid sx={{ justifyContent: 'center', backgroundColor: '#E6D9D9', height: '100%', overflow: 'hidden' }}>
-                    <AddGameForm />
+                    <AddGameForm setOpen={setOpen} />
                 </Grid>
             </Dialog>
         </Box>
