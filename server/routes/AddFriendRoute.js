@@ -46,12 +46,28 @@ router.route("/putFriend:user").get(async (req, res) => {
 })
 
 //DELETE Friend
-router.route("/deleteFriend/:id").delete(async (req, res) => {
+router.route("/deleteFriend/:nid").delete(async (req, res) => {
     // console.log(req.params);
-    const user = req.params.id.userName;
-    const friendN = req.params.id.friend;
+    const user = req.params.nid.split("+")[0];
+    const friendN = req.params.nid.split("+")[1];
     const mark = await addFriend.findOne({userName: user});
-    console.log(mark);
+    // console.log(mark);
+    const list = mark.friends;
+    let ind;
+    for (let i = 0; i < list.length; i++) {
+        if(list[i] === friendN){
+            ind = i;
+        }
+    }
+    await addFriend.updateOne(
+        {
+            userName: user
+        },
+        {
+            $pull: {friends : {$in : friendN}}
+        },
+        {multi:true}
+    );
 })
 
 module.exports = router;
