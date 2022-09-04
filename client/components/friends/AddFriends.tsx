@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Fab from '@mui/material/Fab';
@@ -11,6 +11,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Snackbar } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import axios  from 'axios';
+import { FriendsContext } from '../../pages/friends';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -22,7 +23,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 export default function AddFriend() {
     const [open, setOpen] = React.useState(false);
     const [name, setName] = React.useState("");
-
+    const { friends, setFriends } = React.useContext(FriendsContext);
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target as HTMLInputElement;
         setName(value);
@@ -57,18 +58,19 @@ export default function AddFriend() {
             userName: localStorage.getItem("username"),
         }
         
-        console.log(id.userName);
-        
         if (name.length > 0) {
             // cancelAnimationFrame
             setSuccess(true);
             handleClickSnack();
             axios.post('http://localhost:8080/addFriend', id);
+            setFriends([...friends, id.friendName]);
                 // console.log(friendName);
         } else {
             setSuccess(false);
             handleClickSnack();
         } 
+
+        setName("");
 
         setTimeout(() => {
             snackbarClose();

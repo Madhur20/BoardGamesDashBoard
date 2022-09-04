@@ -7,9 +7,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
-// import { withStyles } from "@material-ui/core/styles";
-// import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-// import clsx from "clsx";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -51,22 +48,6 @@ export default function AddFriends() {
       typeof value === 'string' ? value.split(',') : value,
     );
   };
-
-  // const iconStyles = {
-  //   selectIcon: {
-  //     color: "green"
-  //   }
-  // };
-  // const CustomExpandMore = withStyles(iconStyles)(
-  //   ({ className, classes, ...rest }) => {
-  //     return (
-  //       <ExpandMoreIcon
-  //         {...rest}
-  //         className={clsx(className, classes.selectIcon)}
-  //       />
-  //     );
-  //   }
-  // );
 
   return (
     <div>
