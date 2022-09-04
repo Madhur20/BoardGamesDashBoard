@@ -12,6 +12,7 @@ import { Snackbar } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import axios  from 'axios';
 import { FriendsContext } from '../../pages/friends';
+import { GlobalContext } from '../../pages/_app';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -23,7 +24,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 export default function AddFriend() {
     const [open, setOpen] = React.useState(false);
     const [name, setName] = React.useState("");
+
     const { friends, setFriends } = React.useContext(FriendsContext);
+    const { userName } = React.useContext(GlobalContext);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target as HTMLInputElement;
         setName(value);
@@ -55,7 +59,7 @@ export default function AddFriend() {
     const handleSubmit = (name: string) => {
         const id = {
             friendName: name,
-            userName: localStorage.getItem("username"),
+            userName: userName,
         }
         
         if (name.length > 0) {
