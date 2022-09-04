@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { FriendsContext } from '../../pages/friends';
 
-function deleteGame(friendid: string) {
+function deleteGame(friendid: string, friends: [], setFriends: any) {
     const id = {
         userName: localStorage.getItem("username"),
         friend: friendid,
@@ -20,16 +20,22 @@ function deleteGame(friendid: string) {
     const nid = id.userName + "+" + id.friend;
     // console.log(id);
     axios.delete("http://localhost:8080/deleteFriend/"+nid);
-      // console.log("Game deleted");
+
+    const index = friends.indexOf(id.friend);
+    if (index > -1) { // only splice array when item is found
+        friends.splice(index, 1);
+    }
+
+    setFriends([...friends]);
   }
 
 function generate(element: React.ReactElement) {
-    const { friends } = useContext(FriendsContext);
+    const { friends, setFriends } = useContext(FriendsContext);
 
     return friends.map((value) => 
         <ListItem key={value}
             secondaryAction={
-                <IconButton edge="end" aria-label="delete" onClick={() => deleteGame(value)}>
+                <IconButton edge="end" aria-label="delete" onClick={() => deleteGame(value, friends, setFriends)}>
                     <h6>Remove Friend</h6>
                     <DeleteIcon />
                 </IconButton>

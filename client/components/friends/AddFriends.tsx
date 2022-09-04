@@ -70,6 +70,8 @@ export default function AddFriend() {
             handleClickSnack();
         } 
 
+        setName("");
+
         setTimeout(() => {
             snackbarClose();
             handleClose();
