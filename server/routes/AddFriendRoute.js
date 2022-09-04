@@ -8,7 +8,6 @@ router.route("/addFriend").post(async (req, res) =>{
     const user = req.body.userName;
     const nameF = req.body.friendName;
     const check = await addFriend.find({userName: user});
-    console.log(typeof nameF);
     if(check.length > 0){
         await addFriend.findOneAndUpdate({
             userName: user,
@@ -34,8 +33,16 @@ router.route("/putFriend:user").get(async (req, res) => {
 
     const friendList = await addFriend.findOne({userName: username });
     // console.log(friendList.friends);
-    res.json(friendList.friends);
-    // .then(foundFriend.friends => res.json(foundFriend.friends))
+    if(friendList){
+        await addFriend.findOne({userName: username })
+        .then(res.json(friendList.friends))
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+    else{
+        res.json([]);
+    }
 })
 
 //DELETE Friend
