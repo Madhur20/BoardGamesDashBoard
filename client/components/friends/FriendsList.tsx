@@ -17,14 +17,13 @@ function deleteGame(friendid: string) {
         userName: localStorage.getItem("username"),
         friend: friendid,
     }
-    const nid = id.userName + "+" + id.friend;
     // console.log(id);
-    axios.delete("http://localhost:8080/deleteFriend/"+nid);
+    axios.delete("http://localhost:8080/deleteFriend/"+id);
       // console.log("Game deleted");
   }
 
 function generate(element: React.ReactElement) {
-    const { friends } = useContext(FriendsContext);
+    const { friends, setFriends } = React.useContext(FriendsContext);
 
     return friends.map((value) => 
         <ListItem key={value}
