@@ -14,7 +14,10 @@ import { VideoLabelOutlined } from '@mui/icons-material';
 import axios from 'axios';
 
 function deleteGame(friendid: string) {
-    const id = friendid;
+    const id = {
+        userName: localStorage.getItem("username"),
+        friend: friendid,
+    }
     // console.log(id);
     axios.delete("http://localhost:8080/deleteFriend/"+id);
       // console.log("Game deleted");

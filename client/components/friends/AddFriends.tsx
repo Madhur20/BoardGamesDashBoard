@@ -52,12 +52,18 @@ export default function AddFriend() {
     };
 
     const handleSubmit = (name: string) => {
-        const friendName = {name}; 
+        const id = {
+            friendName: name,
+            userName: localStorage.getItem("username"),
+        }
+        
+        console.log(id.userName);
+        
         if (name.length > 0) {
             // cancelAnimationFrame
             setSuccess(true);
             handleClickSnack();
-            axios.post('http://localhost:8080/addFriend', friendName);
+            axios.post('http://localhost:8080/addFriend', id);
                 // console.log(friendName);
         } else {
             setSuccess(false);
