@@ -1,36 +1,57 @@
 const express = require("express");
+const { findOneAndDelete } = require("../models/AddFriendModel");
 const router = express.Router();
 const addFriend = require("../models/AddFriendModel");
 
 //POST the new Friend
-router.route("/addFriend").post((req, res) =>{
-    // console.log(req);
-    const name = req.body.name;
-    const newFriend = new addFriend({
-        name,
-    });
-
-    newFriend.save();
+router.route("/addFriend").post(async (req, res) =>{
+    const user = req.body.userName;
+    const nameF = req.body.friendName;
+    const check = await addFriend.find({userName: user});
+    if(check.length > 0){
+        await addFriend.findOneAndUpdate({
+            userName: user,
+        },
+        {
+            $addToSet: {
+                friends: nameF,
+            },
+        })
+    }
+    else{
+        const newF = new addFriend({
+            userName: user,
+            friends: [nameF],
+        })
+        newF.save();
+    }
 })
 
 //GET the new Friend
-router.route("/putFriend").get((req, res) => {
-    addFriend.find()
-    .then(foundFriend => res.json(foundFriend))
+router.route("/putFriend:user").get(async (req, res) => {
+    const username = req.params.user;
+
+    const friendList = await addFriend.findOne({userName: username });
+    // console.log(friendList.friends);
+    if(friendList){
+        await addFriend.findOne({userName: username })
+        .then(res.json(friendList.friends))
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+    else{
+        res.json([]);
+    }
 })
 
 //DELETE Friend
-router.route("/deleteFriend/:id").delete((req, res) => {
-    const id = req.params.id;
-    console.log(req.params.id);
-        addFriend.deleteOne({name : id}, (req, res, err) => {
-            if(!err){
-                console.log("Friend is deleted!!!");
-            } else {
-                console.log(err);
-            }
-    })
-
+router.route("/deleteFriend/:id").delete(async (req, res) => {
+    // console.log(req.params);
+    const user = req.params.id.userName;
+    const friendN = req.params.id.friend;
+    const mark = await addFriend.findOne({userName: user});
+    console.log(mark);
 })
 
 module.exports = router;
