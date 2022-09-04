@@ -17,8 +17,9 @@ function deleteGame(friendid: string) {
         userName: localStorage.getItem("username"),
         friend: friendid,
     }
+    const nid = id.userName + "+" + id.friend;
     // console.log(id);
-    axios.delete("http://localhost:8080/deleteFriend/"+id);
+    axios.delete("http://localhost:8080/deleteFriend/"+nid);
       // console.log("Game deleted");
   }
 
