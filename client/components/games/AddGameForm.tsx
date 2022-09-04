@@ -63,11 +63,16 @@ export default function AddGameForm() {
             rating: formValues.rating,
         }
 
+        const id = {
+            gameName: newGame,
+            userName: localStorage.getItem("username"),
+        }
+
         if (formValues.name.length > 0 && formValues.genre.length > 0 && formValues.players > "0") {
             setSuccess(true);
             handleClickSnack();
-            // console.log(formValues);
-            axios.post('http://localhost:8080/addGame', newGame);
+            console.log(id);
+            axios.post('http://localhost:8080/addGame', id);
         } else {
             setSuccess(false);
             handleClickSnack();
