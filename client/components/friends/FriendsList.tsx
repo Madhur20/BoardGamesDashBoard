@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
+import { FriendsContext } from '../../pages/friends';
 
 function deleteGame(friendid: string) {
     const id = {
@@ -22,25 +23,9 @@ function deleteGame(friendid: string) {
   }
 
 function generate(element: React.ReactElement) {
-    
-    const [names, setNames] = React.useState([]);
+    const { friends } = useContext(FriendsContext);
 
-    // console.log(names);
-
-    React.useEffect(() => {
-        try {
-            const user = localStorage.getItem("username");
-            fetch("http://localhost:8080/putFriend"+user).then(res => res.json())
-            .then(jsonRes => {
-                setNames(jsonRes); 
-                // console.log(jsonRes);
-            })
-        } catch (error) {
-            console.log(error);
-        }
-    });
-
-    return names.map((value) => 
+    return friends.map((value) => 
         <ListItem key={value}
             secondaryAction={
                 <IconButton edge="end" aria-label="delete" onClick={() => deleteGame(value)}>
