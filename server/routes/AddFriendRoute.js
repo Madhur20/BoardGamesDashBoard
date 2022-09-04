@@ -1,4 +1,5 @@
 const express = require("express");
+const { findOneAndDelete } = require("../models/AddFriendModel");
 const router = express.Router();
 const addFriend = require("../models/AddFriendModel");
 
@@ -28,41 +29,22 @@ router.route("/addFriend").post(async (req, res) =>{
 })
 
 //GET the new Friend
-router.route("/putFriend:user").get((req, res) => {
-    addFriend.findOne({userName: user, })
-    .then()
-    .then(foundFriend => res.json(foundFriend))
+router.route("/putFriend:user").get(async (req, res) => {
+    const username = req.params.user;
+
+    const friendList = await addFriend.findOne({userName: username });
+    // console.log(friendList.friends);
+    res.json(friendList.friends);
+    // .then(foundFriend.friends => res.json(foundFriend.friends))
 })
 
 //DELETE Friend
-router.route("/deleteFriend/:id").delete((req, res) => {
+router.route("/deleteFriend/:id").delete(async (req, res) => {
+    // console.log(req.params);
     const user = req.params.id.userName;
-    const friend = req.params.id.friend;
-
-    console.log(req.params.id);
-    addFriend.findOneAndDelete(
-        {
-            userName: user,
-            friends: findOne({name: friend}),
-        }, 
-        // {
-        //     friends: findOne({name: friend}, (req, res, err) => {
-        //         if(!err){
-        //             console.log("Friend is deleted!!!");
-        //         } else {
-        //             console.log(err);
-        //         }
-        //     })
-        // }
-    )
-    //     addFriend.deleteOne({name : friend}, (req, res, err) => {
-    //         if(!err){
-    //             console.log("Friend is deleted!!!");
-    //         } else {
-    //             console.log(err);
-    //         }
-    // })
-
+    const friendN = req.params.id.friend;
+    const mark = await addFriend.findOne({userName: user});
+    console.log(mark);
 })
 
 module.exports = router;
