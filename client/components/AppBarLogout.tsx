@@ -2,13 +2,20 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Button, Modal } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { GlobalContext } from '../pages/_app';
 
-export default function ButtonAppBarLogout() {
+export default function ButtonAppBarLogout(props: any) {
     const router = useRouter();
     const [open, setOpen] = React.useState(false);
+    const { userName } = React.useContext(GlobalContext);
+    const [user, setUser] = React.useState(null);
+
+    React.useEffect(() => setUser(JSON.parse(userName)), [])
 
     const style = {
         position: 'absolute' as 'absolute',
@@ -42,7 +49,13 @@ export default function ButtonAppBarLogout() {
     <Box sx={{ padding: 5, flex: 1 }}>
       <AppBar position="fixed" sx={{ backgroundColor: "#262626", padding: 1 }}>
         <Toolbar>
-          <Typography variant="h2" component="div" sx={{ flexGrow: 1, color: 'white', textAlign: 'center', fontFamily: "cursive" }}>
+          {user !== undefined ? 
+            <Grid>
+              <AccountCircleIcon fontSize='large' />
+              <Typography variant='h4' sx={{ marginLeft: '1%' }} component="a" href='/home'>{user}</Typography>
+            </Grid>
+          : "" }
+          <Typography variant="h2" sx={{ flexGrow: 1, color: 'white', textAlign: 'center', fontFamily: "cursive" }}>
             Games Dashboard
           </Typography>
           <Button variant='contained' color='info' onClick={handleOpen}>Logout</Button>

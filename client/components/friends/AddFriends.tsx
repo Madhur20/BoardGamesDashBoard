@@ -68,18 +68,19 @@ export default function AddFriend() {
             handleClickSnack();
             axios.post('http://localhost:8080/addFriend', id);
             setFriends([...friends, id.friendName]);
-                // console.log(friendName);
+            setTimeout(() => {
+                snackbarClose();
+                handleClose();
+            }, 500);
         } else {
             setSuccess(false);
             handleClickSnack();
+            setTimeout(() => {
+                snackbarClose();
+            }, 1000);
         } 
 
         setName("");
-
-        setTimeout(() => {
-            snackbarClose();
-            handleClose();
-        }, 1000);
     };
 
     return (

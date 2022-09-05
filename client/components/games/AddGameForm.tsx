@@ -25,7 +25,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 const defaultValues = {
     name: "",
     genre: "",
-    players: "0",
+    players: 0,
     rating: 0,
 };
 
@@ -73,18 +73,19 @@ export default function AddGameForm(props: any) {
             userName: userName,
         }
 
-        if (formValues.name.length > 0 && formValues.name.charAt(formValues.name.length-1) !== " " && formValues.genre.length > 0 && formValues.players > "0") {
+        if (formValues.name.length > 0 && formValues.name.charAt(formValues.name.length-1) !== " " && formValues.genre.length > 0 && formValues.players > 0) {
             setSuccess(true);
             handleClickSnack();
             // console.log(id);
             axios.post('http://localhost:8080/addGame', id);
             setGames([...games, id.gameName]);
+            setTimeout(() => {
+                props.setOpen(false);
+            }, 500);
         } else {
             setSuccess(false);
             handleClickSnack();
         }
-
-        props.setOpen(false);
     };
 
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
@@ -185,7 +186,7 @@ export default function AddGameForm(props: any) {
                     <Button variant="contained" color="secondary" type="submit">
                         Add Game
                     </Button>
-                    <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={snackbarClose}>
+                    <Snackbar open={snackbarOpen} autoHideDuration={1000} onClose={snackbarClose}>
                         {success ?
                             <Alert onClose={snackbarClose} severity="success" sx={{ width: '100%' }}>
                                 Game Inserted! Enjoy
