@@ -9,7 +9,7 @@ import { Button, Modal } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { GlobalContext } from '../pages/_app';
 
-export default function ButtonAppBarLogout(props: any) {
+export default function ButtonAppBarLogout() {
     const router = useRouter();
     const [open, setOpen] = React.useState(false);
     const { userName } = React.useContext(GlobalContext);
