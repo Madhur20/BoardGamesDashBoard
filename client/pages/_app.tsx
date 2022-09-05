@@ -2,7 +2,12 @@ import React, { createContext, useState } from 'react';
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 
-export const GlobalContext = createContext({});
+type GlobalContextType = {
+  userName: any;
+  setUserName: any;
+};
+
+export const GlobalContext = createContext<GlobalContextType | any>({});
 
 function MyApp({ Component, pageProps }: AppProps) {
   let user: any;

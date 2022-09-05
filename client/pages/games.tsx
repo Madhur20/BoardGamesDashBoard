@@ -6,7 +6,12 @@ import AddGame from '../components/games/AddGame';
 import isUserAuth from '../components/isAuthenticated';
 import { GlobalContext } from './_app';
 
-export const GamesContext = createContext({});
+type GamesContextType = {
+    games: any;
+    setGames: any;
+}
+
+export const GamesContext = createContext<GamesContextType | any>({});
 
 async function foo(user :any) {
     const res = await fetch("http://localhost:8080/putGame" + user);
