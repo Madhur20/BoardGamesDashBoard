@@ -6,11 +6,16 @@ import AddFriend from '../components/friends/AddFriends';
 import isUserAuth from '../components/isAuthenticated';
 import { GlobalContext } from './_app';
 
-export const FriendsContext = createContext({}); 
+type FriendsContextType = {
+    friends: any;
+    setFriends: any;
+};
+
+export const FriendsContext = createContext<FriendsContextType | any>({}); 
 
 async function foo(user: any) {
     const res = await fetch("http://localhost:8080/putFriend" + user);
-    const friendsList: string[] | [] = await res.json();
+    const friendsList: any = await res.json();
     return friendsList;
 }
 
