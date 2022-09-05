@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { Theme, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -68,7 +67,7 @@ export default function HomePage() {
     const [formValues, setFormValues] = useState(defaultValues);
 
     React.useEffect(() => {
-        foo(userName).then((res) => setFriends(res));
+        foo(userName).then((res: any) => setFriends(res));
     }, [])
 
     const handleChange = (event: SelectChangeEvent<typeof personName>) => {

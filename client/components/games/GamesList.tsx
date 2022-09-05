@@ -360,7 +360,7 @@ export default function EnhancedTable() {
               rows.slice().sort(getComparator(order, orderBy)) */}
               {stableSort(games, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
+                .map((row: any, index) => {
                   const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 

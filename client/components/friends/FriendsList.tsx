@@ -13,7 +13,7 @@ import axios from 'axios';
 import { FriendsContext } from '../../pages/friends';
 import { GlobalContext } from '../../pages/_app';
 
-function deleteFriend(friendid: string, friends: [], setFriends: any, userName: any) {
+function deleteFriend(friendid: any, friends: any[], setFriends: any, userName: any) {
     const id = {
         userName: userName,
         friend: friendid,
@@ -22,7 +22,7 @@ function deleteFriend(friendid: string, friends: [], setFriends: any, userName: 
     // console.log(id);
     axios.delete("http://localhost:8080/deleteFriend/" + nid);
 
-    const index: any = friends.indexOf(friendid);
+    const index = friends.indexOf(friendid);
     if (index > -1) { // only splice array when item is found
         friends.splice(index, 1);
     }
@@ -34,7 +34,7 @@ function generate(element: React.ReactElement) {
     const { friends, setFriends } = useContext(FriendsContext);
     const { userName } = useContext(GlobalContext);
 
-    return friends.map((value) => 
+    return friends.map((value: any) => 
         <ListItem key={value}
             secondaryAction={
                 <IconButton edge="end" aria-label="delete" onClick={() => deleteFriend(value, friends, setFriends, userName)}>
