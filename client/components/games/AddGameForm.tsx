@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
@@ -12,6 +12,8 @@ import Box from "@mui/material/Box"
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import AddGenre from "./AddGenre";
 import axios from "axios";
+import { GlobalContext } from "../../pages/_app";
+import { GamesContext } from "../../pages/games";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -27,7 +29,7 @@ const defaultValues = {
     rating: 0,
 };
 
-export default function AddGameForm() {
+export default function AddGameForm(props: any) {
     const [formValues, setFormValues] = useState(defaultValues);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +55,9 @@ export default function AddGameForm() {
         });
     };
 
+    const { userName } = useContext(GlobalContext);
+    const { games, setGames } = useContext(GamesContext);
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -65,18 +70,21 @@ export default function AddGameForm() {
 
         const id = {
             gameName: newGame,
-            userName: localStorage.getItem("username"),
+            userName: userName,
         }
 
-        if (formValues.name.length > 0 && formValues.genre.length > 0 && formValues.players > "0") {
+        if (formValues.name.length > 0 && formValues.name.charAt(formValues.name.length-1) !== " " && formValues.genre.length > 0 && formValues.players > "0") {
             setSuccess(true);
             handleClickSnack();
-            console.log(id);
+            // console.log(id);
             axios.post('http://localhost:8080/addGame', id);
+            setGames([...games, id.gameName]);
         } else {
             setSuccess(false);
             handleClickSnack();
         }
+
+        props.setOpen(false);
     };
 
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
@@ -93,22 +101,6 @@ export default function AddGameForm() {
 
         setSnackbarOpen(false);
     };
-
-    // const [games, setGames] = useState([{
-    //     name: "",
-    //     genre: "",
-    //     players: "",
-    //     rating: 0
-    //   }])
-    
-    //   useEffect(() => {
-    //     fetch("http://localhost:8080/putGame").then(res => res.json())
-    //     .then(jsonRes => {
-    //       setGames(jsonRes); 
-    //       // console.log(jsonRes);
-    //     }
-    //     )
-    //   },[setGames])
 
     return (
         <Box >
