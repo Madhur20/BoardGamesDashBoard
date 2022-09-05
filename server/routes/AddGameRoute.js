@@ -4,9 +4,10 @@ const addGame = require("../models/AddGameModel");
 
 //POST the new Game
 router.route("/addGame").post(async (req, res) =>{
-    console.log(req);
+    // console.log(req);
     const user = req.body.userName;
     const game = req.body.gameName;
+    console.log(user);
     const check = await addGame.find({userName: user});
     if(check.length > 0){
         await addGame.findOneAndUpdate({

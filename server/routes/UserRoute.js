@@ -1,5 +1,5 @@
 const router  = require("express").Router();
-const {user} = require("../models/UserModel");
+const user = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const Joi = require('joi');
 // const passwordComplexity = require("joi-password-complexity");

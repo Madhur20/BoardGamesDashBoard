@@ -60,7 +60,8 @@ export default function AddGameForm(props: any) {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
+        console.log(JSON.parse(userName));
+        
         const newGame = {
             name: formValues.name,
             genre: formValues.genre,

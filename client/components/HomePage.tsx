@@ -12,6 +12,8 @@ import { styled } from '@mui/material/styles';
 import Button, { ButtonProps } from '@mui/material/Button';
 import { FormLabel, Grid, TextField } from '@mui/material';
 import { purple } from '@mui/material/colors';
+// const fetch = require('node-fetch');
+import axios from 'axios';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -95,19 +97,28 @@ export default function HomePage() {
         });
     };
 
-    const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const submitted = {
-            friends: personName,
+            friend: personName,
             genre: formValues.genre,
             players: formValues.players,
         }
 
-        if (submitted.friends.length > 0 && submitted.genre.length > 0 && submitted.players > 0) {
+        if (submitted.friend.length > 0 && submitted.genre.length > 0 && submitted.players > 0) {
             // submitted IS AN OBJECT THAT CONTAINS ALL THE DATA YOU NEED FOR FILTERING
             console.log(submitted);
             // DO SUMBIT STUFF HERE
+            let friends = "";
+            for (let i = 0; i < submitted.friend.length; i++) {
+                (i === submitted.friend.length-1) ? friends+=submitted.friend[i] : friends=friends+submitted.friend[i]+",";
+            }
+            const findgames_url = `http://localhost:8080/findgames?friends=${encodeURIComponent(friends)}&players=${encodeURIComponent(submitted.players)}&genre=${encodeURIComponent(submitted.genre)}`;
+            // console.log(findgames_url);
+            await fetch(findgames_url)
+            .then((response: { json: () => any; }) => response.json())
+            
             setFormValues(defaultValues);
             setPersonName([]);
         } else {
