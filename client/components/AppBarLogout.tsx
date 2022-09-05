@@ -15,7 +15,7 @@ export default function ButtonAppBarLogout() {
     const { userName } = React.useContext(GlobalContext);
     const [user, setUser] = React.useState(null);
 
-    React.useEffect(() => setUser(JSON.parse(userName)), [])
+    React.useEffect(() => setUser(JSON.parse(userName)), [userName]);
 
     const style = {
         position: 'absolute' as 'absolute',
