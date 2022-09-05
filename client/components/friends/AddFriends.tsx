@@ -62,7 +62,7 @@ export default function AddFriend() {
             userName: userName,
         }
         
-        if (name.length > 0) {
+        if (name.length > 0 && name.charAt(name.length-1) !== " ") {
             // cancelAnimationFrame
             setSuccess(true);
             handleClickSnack();

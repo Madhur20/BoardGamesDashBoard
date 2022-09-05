@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useRouter } from 'next/router'
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -187,22 +188,25 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-async function deleteGame (gameid: readonly string[], userName: string, games: [], setGames: any) {
+async function put(userName: string, setGames: any, router: any) {
+  await fetch("http://localhost:8080/putGame" + userName)
+  .then(res => res.json())
+  .then((jsonRes) => {
+    setGames(jsonRes);
+  });
+
+  // This is a temporary fix and needs to be updated later
+  router.reload(window.location.pathname);
+}
+
+function deleteGame (gameid: readonly string[], userName: string, games: [], setGames: any, router: any) {
   const id = gameid;
   // console.log(id);
   id.map(async (name) => {
     const nid = userName+"+"+name;
     await axios.delete("http://localhost:8080/deleteGame/" + nid);
-    
-    console.log(name);
-    const index: any = games.indexOf(name);
-    console.log(index);
-      if (index > -1) { // only splice array when item is found
-          games.splice(index, 1);
-      }
   })
-
-  setGames([...games]);
+  put(userName, setGames, router);
 }
 
 const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly string[]} ) => {
@@ -210,6 +214,7 @@ const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly stri
   const { games, setGames } = useContext(GamesContext);
   const numselected:number = props.numSelected;
   const gameid: readonly string[] = props.gameid;
+  const router = useRouter();
   
   return (
     <Toolbar
@@ -246,7 +251,7 @@ const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly stri
       )}
       {numselected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton onClick={() => deleteGame(gameid, userName, games, setGames)}>
+          <IconButton onClick={() => deleteGame(gameid, userName, games, setGames, router)}>
             <DeleteTwoToneIcon />
           </IconButton>
         </Tooltip>
@@ -262,7 +267,6 @@ const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly stri
 };
 
 export default function EnhancedTable() {
-  const { userName } = useContext(GlobalContext);
   const { games } = useContext(GamesContext);
 
   const [order, setOrder] = React.useState<Order>("asc");

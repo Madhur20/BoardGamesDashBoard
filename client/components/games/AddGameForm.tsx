@@ -73,10 +73,10 @@ export default function AddGameForm(props: any) {
             userName: userName,
         }
 
-        if (formValues.name.length > 0 && formValues.genre.length > 0 && formValues.players > "0") {
+        if (formValues.name.length > 0 && formValues.name.charAt(formValues.name.length-1) !== " " && formValues.genre.length > 0 && formValues.players > "0") {
             setSuccess(true);
             handleClickSnack();
-            console.log(id);
+            // console.log(id);
             axios.post('http://localhost:8080/addGame', id);
             setGames([...games, id.gameName]);
         } else {
