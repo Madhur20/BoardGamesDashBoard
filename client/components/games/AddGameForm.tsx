@@ -60,7 +60,6 @@ export default function AddGameForm(props: any) {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(JSON.parse(userName));
         
         const newGame = {
             name: formValues.name,
@@ -71,7 +70,7 @@ export default function AddGameForm(props: any) {
 
         const id = {
             gameName: newGame,
-            userName: userName,
+            userName: JSON.parse(userName),
         }
 
         if (formValues.name.length > 0 && formValues.name.charAt(formValues.name.length-1) !== " " && formValues.genre.length > 0 && formValues.players > 0) {

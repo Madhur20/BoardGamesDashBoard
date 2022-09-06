@@ -22,7 +22,7 @@ router.route("/signup").post(async (req, res) =>{
         if (User.length>0){
             return res.status(409).send({message: "User Name already taken!"})
         }
-        const salt = await bcrypt.genSalt(Number(process.env.SALT));
+        const salt = await bcrypt.genSalt(Number(10));  //process.env.SALT = 10
         const hashPassword = await bcrypt.hash(req.body.password, salt);
 
         await new user({...req.body, password: hashPassword}).save();

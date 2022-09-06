@@ -202,11 +202,12 @@ async function put(userName: string, setGames: any, router: any) {
 function deleteGame (gameid: readonly string[], userName: string, games: [], setGames: any, router: any) {
   const id = gameid;
   // console.log(id);
+  const _user = JSON.parse(userName);
   id.map(async (name) => {
-    const nid = userName+"+"+name;
+    const nid = _user+"+"+name;
     await axios.delete("http://localhost:8080/deleteGame/" + nid);
   })
-  put(userName, setGames, router);
+  put(_user, setGames, router);
 }
 
 const EnhancedTableToolbar = (props: {numSelected: number; gameid: readonly string[]} ) => {

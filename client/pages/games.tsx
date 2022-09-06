@@ -14,7 +14,8 @@ type GamesContextType = {
 export const GamesContext = createContext<GamesContextType | any>({});
 
 async function foo(user :any) {
-    const res = await fetch("http://localhost:8080/putGame" + user);
+    const _user = JSON.parse(user);
+    const res = await fetch("http://localhost:8080/putGame" + _user);
     const gamesList = await res.json();
     return gamesList;
 }

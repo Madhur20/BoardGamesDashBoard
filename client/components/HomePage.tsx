@@ -43,7 +43,8 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   }
 
 async function foo(user: any) {
-    const res = await fetch("http://localhost:8080/putFriend" + user);
+    const _user = JSON.parse(user);
+    const res = await fetch("http://localhost:8080/putFriend" + _user);
     const friendsList: string[] | [] = await res.json();
     return friendsList;
 }
@@ -107,16 +108,23 @@ export default function HomePage() {
 
         if (submitted.friend.length > 0 && submitted.genre.length > 0 && submitted.players > 0) {
             // submitted IS AN OBJECT THAT CONTAINS ALL THE DATA YOU NEED FOR FILTERING
-            console.log(submitted);
+            // console.log(submitted);
             // DO SUMBIT STUFF HERE
-            let friends = "";
+            const _user = JSON.parse(userName);
+            let friends = ""+_user+",";
+            
             for (let i = 0; i < submitted.friend.length; i++) {
                 (i === submitted.friend.length-1) ? friends+=submitted.friend[i] : friends=friends+submitted.friend[i]+",";
             }
             const findgames_url = `http://localhost:8080/findgames?friends=${encodeURIComponent(friends)}&players=${encodeURIComponent(submitted.players)}&genre=${encodeURIComponent(submitted.genre)}`;
-            // console.log(findgames_url);
+            
+            // Fetch the Filtered JSON response from the database
             await fetch(findgames_url)
             .then((response: { json: () => any; }) => response.json())
+            .then(jsonRes => {
+                //jsonRes => the filtered games list data
+                console.log(jsonRes);
+            })
             
             setFormValues(defaultValues);
             setPersonName([]);

@@ -7,27 +7,26 @@ const user = require("../models/UserModel");
 
 
 router.route("/findgames").get(async (req, res) => {
-    console.log(req.query);
+    // console.log(req.query);
     const friends = req.query.friends.split(",");
     const player = req.query.players;
-    const genre = req.query.genre;
-    console.log(friends);
+    const genr = req.query.genre;
+    // console.log(friends);
     const friend_games = await addGame.find({
         userName: friends, 
-        games:{
-            genre: genre, 
-            players: {
-                $lte: player
+    });
+    // console.log(friend_games);
+    const response = [];
+    for (let i = 0; i < friend_games.length; i++) {
+        const f_games = friend_games[i];
+        for (let j = 0; j < f_games.games.length; j++) {
+            if(f_games.games[j].genre === genr && f_games.games[j].players >= player){
+                response.push(f_games.games[j]);
             }
         }
-    });
-    console.log(friend_games);
-    
-    // for (let i = 0; i < friends.length; i++) {
-    //     if(!user.findOne({userName: friends[i]})){
-    //         return res.status(404).send({message:"Friend Not Found!"});
-    //     }
-    // }
+    }
+    // console.log(response);
+    res.json(response);
 })
 
 module.exports = router;

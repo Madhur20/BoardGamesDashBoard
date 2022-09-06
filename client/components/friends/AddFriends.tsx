@@ -59,7 +59,7 @@ export default function AddFriend() {
     const handleSubmit = (name: string) => {
         const id = {
             friendName: name,
-            userName: userName,
+            userName: JSON.parse(userName),
         }
         
         if (name.length > 0 && name.charAt(name.length-1) !== " ") {
