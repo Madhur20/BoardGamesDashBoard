@@ -14,8 +14,10 @@ type FriendsContextType = {
 export const FriendsContext = createContext<FriendsContextType | any>({}); 
 
 async function foo(user: any) {
+
     const _user = JSON.parse(user);
     const res = await fetch("http://localhost:8080/putFriend" + _user);
+    
     const friendsList: any = await res.json();
     return friendsList;
 }
