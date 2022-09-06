@@ -15,7 +15,7 @@ import { GlobalContext } from '../../pages/_app';
 
 function deleteFriend(friendid: any, friends: any[], setFriends: any, userName: any) {
     const id = {
-        userName: userName,
+        userName: JSON.parse(userName),
         friend: friendid,
     }
     const nid = id.userName + "+" + id.friend;
