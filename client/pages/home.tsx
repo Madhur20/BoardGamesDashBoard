@@ -33,7 +33,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container1}>
       <Top page={0} />
-      <div style={{ paddingTop: 150, display: 'flex', flexDirection: 'row', padding: 50, backgroundColor: "#2f2f2f", justifyContent: "center", height: '80vh' }}>
+      <div style={{ paddingTop: 150, display: 'flex', flexDirection: 'row', padding: 50, backgroundColor: "#2f2f2f", justifyContent: "center", height: '100%' }}>
         <HomePage friends={friends} />
       </div>
     </div>
