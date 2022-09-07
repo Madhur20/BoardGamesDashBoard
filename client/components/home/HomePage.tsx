@@ -1,18 +1,25 @@
 import React, { useState, useContext } from 'react';
 import { Theme, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Dialog from '@mui/material/Dialog';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
-import { GlobalContext } from '../pages/_app';
+import { GlobalContext } from '../../pages/_app';
 import { styled } from '@mui/material/styles';
 import Button, { ButtonProps } from '@mui/material/Button';
 import { FormLabel, Grid, TextField } from '@mui/material';
 import { purple } from '@mui/material/colors';
-// const fetch = require('node-fetch');
-import axios from 'axios';
+import { TransitionProps } from '@mui/material/transitions';
+import GameList from './GameList';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -42,13 +49,6 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
     };
   }
 
-async function foo(user: any) {
-    const _user = JSON.parse(user);
-    const res = await fetch("http://localhost:8080/putFriend" + _user);
-    const friendsList: string[] | [] = await res.json();
-    return friendsList;
-}
-
 const defaultValues = {
     friends: [],
     genre: "",
@@ -61,17 +61,27 @@ const genres = [
     'Sports',
 ];
 
-export default function HomePage() {
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+export default function HomePage(props: any) {
     const theme = useTheme(); 
     const [personName, setPersonName] = React.useState<string[]>([]);
-    const [friends, setFriends] = useState([]);
     const { userName } = useContext(GlobalContext);
+    const [open, setOpen] = React.useState(false);
+    const [finalGamesList, setFinalGamesList] = React.useState([]);
 
+    const handleClose = () => {
+        setOpen(false);
+    };
+    
     const [formValues, setFormValues] = useState(defaultValues);
-
-    React.useEffect(() => {
-        foo(userName).then((res: any) => setFriends(res));
-    }, [])
 
     const handleChange = (event: SelectChangeEvent<typeof personName>) => {
       const { target: { value } } = event;
@@ -107,9 +117,6 @@ export default function HomePage() {
         }
 
         if (submitted.friend.length > 0 && submitted.genre.length > 0 && submitted.players > 0) {
-            // submitted IS AN OBJECT THAT CONTAINS ALL THE DATA YOU NEED FOR FILTERING
-            // console.log(submitted);
-            // DO SUMBIT STUFF HERE
             const _user = JSON.parse(userName);
             let friends = ""+_user+",";
             
@@ -124,7 +131,9 @@ export default function HomePage() {
             .then(jsonRes => {
                 //jsonRes => the filtered games list data
                 console.log(jsonRes);
+                setFinalGamesList(jsonRes);
             })
+            setOpen(true);
             
             setFormValues(defaultValues);
             setPersonName([]);
@@ -155,7 +164,7 @@ export default function HomePage() {
                     )}
                     MenuProps={MenuProps}
                     >
-                    {friends.map((name) => (
+                    {props.friends.map((name: any) => (
                         <MenuItem
                         key={name}
                         value={name}
@@ -204,6 +213,31 @@ export default function HomePage() {
                 </FormControl>
             </Grid>
             <ColorButton variant="contained" size='large' sx={{ padding: 2, marginTop: 10 }} type="submit">FIND GAMES!</ColorButton>
+            <Dialog
+                fullScreen
+                open={open}
+                onClose={handleClose}
+                TransitionComponent={Transition}
+            >
+                <AppBar sx={{ position: 'relative', backgroundColor: '#2f2f2f' }}>
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={handleClose}
+                            aria-label="close"
+                        >
+                            <CloseIcon fontSize='large' />
+                        </IconButton>
+                        <Typography sx={{ flex: 1, textAlign: 'center' }} variant="h6" component="div">
+                            Games 
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Grid sx={{ justifyContent: 'center', backgroundColor: '#E6D9D9', height: '100%', overflow: 'hidden' }}>
+                    <GameList setOpen={setOpen} games={finalGamesList} />
+                </Grid>
+            </Dialog>
         </form>
     )
 }
