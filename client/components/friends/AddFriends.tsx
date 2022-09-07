@@ -57,18 +57,15 @@ export default function AddFriend() {
     };
 
     const handleSubmit = async (name: string) => {
-        const res = await fetch("https://nodejsgamedashbe.herokuapp.com/putFriend" + name);
+        const res = await fetch("https://nodejsgamedashbe.herokuapp.com/putFriend" + name.trim());
         const friendcheck: any = await res.json();
-        let check = false;
-        if(friendcheck.length>0){
-            check = true;
-        }
+        
         const id = {
             friendName: name.trim(),
             userName: JSON.parse(userName),
         }
         
-        if (check && name.length > 0) {
+        if (friendcheck.length>0 && id.friendName.length > 0) {
             // cancelAnimationFrame
             setSuccess(true);
             handleClickSnack();
@@ -77,7 +74,6 @@ export default function AddFriend() {
             setTimeout(() => {
                 snackbarClose();
                 handleClose();
-                check = false;
             }, 500);
         } else {
             setSuccess(false);
