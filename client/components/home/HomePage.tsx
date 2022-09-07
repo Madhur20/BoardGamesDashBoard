@@ -18,6 +18,8 @@ import { styled } from '@mui/material/styles';
 import Button, { ButtonProps } from '@mui/material/Button';
 import { FormLabel, Grid, TextField } from '@mui/material';
 import { purple } from '@mui/material/colors';
+import { Snackbar } from '@mui/material';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { TransitionProps } from '@mui/material/transitions';
 import GameList from './GameList';
 
@@ -39,6 +41,13 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
       backgroundColor: purple[700],
     },
 }));
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" sx={{ zIndex: 999 }} {...props} />;
+});
 
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
     return {
@@ -76,6 +85,7 @@ export default function HomePage(props: any) {
     const { userName } = useContext(GlobalContext);
     const [open, setOpen] = React.useState(false);
     const [finalGamesList, setFinalGamesList] = React.useState([]);
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
     const handleClose = () => {
         setOpen(false);
@@ -107,6 +117,18 @@ export default function HomePage(props: any) {
         });
     };
 
+    const handleClickSnack = () => {
+        setSnackbarOpen(true);
+    };
+
+    const snackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setSnackbarOpen(false);
+    };
+
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -130,7 +152,7 @@ export default function HomePage(props: any) {
             .then((response: { json: () => any; }) => response.json())
             .then(jsonRes => {
                 //jsonRes => the filtered games list data
-                console.log(jsonRes);
+                // console.log(jsonRes);
                 setFinalGamesList(jsonRes);
             })
             setOpen(true);
@@ -138,106 +160,114 @@ export default function HomePage(props: any) {
             setFormValues(defaultValues);
             setPersonName([]);
         } else {
-            alert("Please Select Correct Parameters: \n\n Friends > 0 \n Players > 0 \n Genre");   
+            handleClickSnack();
+            // alert("Please Select Correct Parameters: \n\n Friends > 0 \n Players > 0 \n Genre");   
         }
     }
 
     return (
+        <Grid>
         <form onSubmit={handleFormSubmit}>
-            <Grid>
-                <FormControl>
-                    <FormLabel id="select-friends" color="secondary" sx={{ color: "#e3e3e3" }}>Friends</FormLabel>
-                    <Select
-                    sx={{ bgcolor: "#e3e3e3", width: 300 }}
-                    id="select-friends"
-                    multiple
-                    color="secondary"
-                    value={personName}
-                    onChange={handleChange}
-                    input={<OutlinedInput id="select-friends" label="Chip" />}
-                    renderValue={(selected) => (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, }}>
-                        {selected.map((value) => (
-                            <Chip key={value} label={value} />
-                        ))}
-                        </Box>
-                    )}
-                    MenuProps={MenuProps}
-                    >
-                    {props.friends.map((name: any) => (
-                        <MenuItem
-                        key={name}
-                        value={name}
-                        style={getStyles(name, personName, theme)}
-                        >
-                        {name}
-                        </MenuItem>
-                    ))}
-                    </Select>
-                </FormControl>
-            </Grid>
-            <Grid sx={{ marginTop: 10 }}>
-            <FormControl>
-                    <FormLabel id="players" color="secondary" sx={{ color: "#e3e3e3" }}>Max Players</FormLabel>
-                    <TextField
-                        sx={{ bgcolor: "#e3e3e3", color: "#e3e3e3" }}
-                        id="players"
-                        name="players"
-                        type="number"
+                <Grid>
+                    <FormControl>
+                        <FormLabel id="select-friends" color="secondary" sx={{ color: "#e3e3e3" }}>Friends</FormLabel>
+                        <Select
+                        sx={{ bgcolor: "#e3e3e3", width: 300 }}
+                        id="select-friends"
+                        multiple
                         color="secondary"
-                        value={formValues.players}
-                        onChange={handleInputChange}
-                    />
-            </FormControl>
-            </Grid>
-            <Grid sx={{ marginTop: 10 }}>
-                <FormControl>
-                <FormLabel id="genre" color="secondary" sx={{ color: "#e3e3e3" }}>Genre</FormLabel>
-                    <Select
-                    aria-labelledby="genre"
-                    name="genre"
-                    value={formValues.genre}
-                    onChange={handleInputSelect}
-                    color="secondary"
-                    sx={{ bgcolor: "#e3e3e3", width: 200 }}
-                    >
-                        {genres.map((name) => (
+                        value={personName}
+                        onChange={handleChange}
+                        input={<OutlinedInput id="select-friends" label="Chip" />}
+                        renderValue={(selected) => (
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, }}>
+                            {selected.map((value) => (
+                                <Chip key={value} label={value} />
+                            ))}
+                            </Box>
+                        )}
+                        MenuProps={MenuProps}
+                        >
+                        {props.friends.map((name: any) => (
                             <MenuItem
                             key={name}
                             value={name}
+                            style={getStyles(name, personName, theme)}
                             >
                             {name}
                             </MenuItem>
                         ))}
-                    </Select>
-                </FormControl>
-            </Grid>
-            <ColorButton variant="contained" size='large' sx={{ padding: 2, marginTop: 10 }} type="submit">FIND GAMES!</ColorButton>
-            <Dialog
-                fullScreen
-                open={open}
-                onClose={handleClose}
-                TransitionComponent={Transition}
-            >
-                <AppBar sx={{ position: 'relative', backgroundColor: '#2f2f2f' }}>
-                    <Toolbar>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            onClick={handleClose}
-                            aria-label="close"
-                        >
-                            <CloseIcon fontSize='large' />
-                        </IconButton>
-                        <Typography sx={{ flex: 1, textAlign: 'center' }} variant="h6" component="div">
-                            Games 
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <Grid sx={{ justifyContent: 'center', backgroundColor: '#E6D9D9', height: '100%', overflow: 'hidden' }}>
-                    <GameList setOpen={setOpen} games={finalGamesList} />
+                        </Select>
+                    </FormControl>
                 </Grid>
-            </Dialog>
-        </form>
+                <Grid sx={{ marginTop: 10 }}>
+                <FormControl>
+                        <FormLabel id="players" color="secondary" sx={{ color: "#e3e3e3" }}>Max Players</FormLabel>
+                        <TextField
+                            sx={{ bgcolor: "#e3e3e3", color: "#e3e3e3" }}
+                            id="players"
+                            name="players"
+                            type="number"
+                            color="secondary"
+                            value={formValues.players}
+                            onChange={handleInputChange}
+                        />
+                </FormControl>
+                </Grid>
+                <Grid sx={{ marginTop: 10 }}>
+                    <FormControl>
+                    <FormLabel id="genre" color="secondary" sx={{ color: "#e3e3e3" }}>Genre</FormLabel>
+                        <Select
+                        aria-labelledby="genre"
+                        name="genre"
+                        value={formValues.genre}
+                        onChange={handleInputSelect}
+                        color="secondary"
+                        sx={{ bgcolor: "#e3e3e3", width: 200 }}
+                        >
+                            {genres.map((name) => (
+                                <MenuItem
+                                key={name}
+                                value={name}
+                                >
+                                {name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <ColorButton variant="contained" size='large' sx={{ padding: 2, marginTop: 10 }} type="submit">FIND GAMES!</ColorButton>
+                <Dialog
+                    fullScreen
+                    open={open}
+                    onClose={handleClose}
+                    TransitionComponent={Transition}
+                >
+                    <AppBar sx={{ position: 'relative', backgroundColor: '#2f2f2f' }}>
+                        <Toolbar>
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                onClick={handleClose}
+                                aria-label="close"
+                            >
+                                <CloseIcon fontSize='large' />
+                            </IconButton>
+                            <Typography sx={{ flex: 1, textAlign: 'center' }} variant="h6" component="div">
+                                Games 
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                    <Grid sx={{ justifyContent: 'center', backgroundColor: '#E6D9D9', height: '100%', overflow: 'hidden' }}>
+                        <GameList setOpen={setOpen} games={finalGamesList} />
+                    </Grid>
+                </Dialog>
+            </form>
+            <Snackbar open={snackbarOpen} autoHideDuration={1000} onClose={snackbarClose}>
+                <Alert onClose={snackbarClose} severity="error" sx={{ width: '100%' }}>
+                    Invalid Selections :( Please Try again.
+                </Alert>
+            </Snackbar>
+        </Grid>
     )
 }
