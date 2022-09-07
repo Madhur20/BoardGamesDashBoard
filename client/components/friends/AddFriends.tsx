@@ -57,7 +57,7 @@ export default function AddFriend() {
     };
 
     const handleSubmit = async (name: string) => {
-        const res = await fetch("http://localhost:8080/putFriend" + name);
+        const res = await fetch("https://nodejsgamedashbe.herokuapp.com/putFriend" + name);
         const friendcheck: any = await res.json();
         let check = false;
         if(friendcheck.length>0){
@@ -72,7 +72,7 @@ export default function AddFriend() {
             // cancelAnimationFrame
             setSuccess(true);
             handleClickSnack();
-            axios.post('http://localhost:8080/addFriend', id);
+            axios.post('https://nodejsgamedashbe.herokuapp.com/addFriend', id);
             setFriends([...friends, id.friendName]);
             setTimeout(() => {
                 snackbarClose();
