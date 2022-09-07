@@ -55,8 +55,6 @@ const Index: NextPage = () => {
       }
       router.push('/home');
     }
-
-    console.log("Login Error");
   };
 
   return (

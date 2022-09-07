@@ -56,13 +56,19 @@ export default function AddFriend() {
         setSnackbarOpen(false);
     };
 
-    const handleSubmit = (name: string) => {
+    const handleSubmit = async (name: string) => {
+        const res = await fetch("http://localhost:8080/putFriend" + name);
+        const friendcheck: any = await res.json();
+        let check = false;
+        if(friendcheck.length>0){
+            check = true;
+        }
         const id = {
-            friendName: name,
+            friendName: name.trim(),
             userName: JSON.parse(userName),
         }
         
-        if (name.length > 0 && name.charAt(name.length-1) !== " ") {
+        if (check && name.length > 0) {
             // cancelAnimationFrame
             setSuccess(true);
             handleClickSnack();
@@ -71,13 +77,15 @@ export default function AddFriend() {
             setTimeout(() => {
                 snackbarClose();
                 handleClose();
+                check = false;
             }, 500);
         } else {
             setSuccess(false);
             handleClickSnack();
             setTimeout(() => {
                 snackbarClose();
-            }, 1000);
+                handleClose();
+            }, 600);
         } 
 
         setName("");
