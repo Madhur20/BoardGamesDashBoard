@@ -4,5 +4,6 @@ Game Dashboard is a Full Stack Web Application which will help people choose gam
 For test purpose:
 
 Username: test
+
 Password: test
 
