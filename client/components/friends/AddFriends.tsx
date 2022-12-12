@@ -57,7 +57,7 @@ export default function AddFriend() {
     };
 
     const handleSubmit = async (name: string) => {
-        const res = await fetch("https://nodejsgamedashbe.herokuapp.com/putFriend" + name.trim());
+        const res = await fetch("https://games-dashboard.onrender.com/putFriend" + name.trim());
         const friendcheck: any = await res.json();
         
         const id = {
@@ -69,7 +69,7 @@ export default function AddFriend() {
             // cancelAnimationFrame
             setSuccess(true);
             handleClickSnack();
-            axios.post('https://nodejsgamedashbe.herokuapp.com/addFriend', id);
+            axios.post('https://games-dashboard.onrender.com/addFriend', id);
             setFriends([...friends, id.friendName]);
             setTimeout(() => {
                 snackbarClose();
